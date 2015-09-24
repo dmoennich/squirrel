@@ -1,0 +1,27 @@
+{
+  "name": "squirrel",
+  "version": "1.0.0",
+  "description": "Narr Story Gen",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dmoennich/squirrel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dmoennich/squirrel/issues"
+  },
+  "homepage": "https://github.com/dmoennich/squirrel#readme",
+  "dependencies": {
+    "express": "^4.13.3",
+    "google": "^1.3.0",
+    "google-images": "^0.1.0",
+    "morgan": "^1.6.1"
+  }
+}
