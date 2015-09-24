@@ -1,11 +1,12 @@
 var Action = require("../Action");
+var MessageContentProvider = require("../MessageContentProvider")();
 
 var talkActionObj = {
 	name: "talk",
-	params: ["message"],
-	func: function (actionObj) {
-		console.log(actionObj.actor.name +
-			" says to " + actionObj.reactor.name + ": " + actionObj.params.message);
+	func: function (actor, reactor) {
+		var message = MessageContentProvider.get();
+		console.log(actor.name +
+			" says to " + reactor.name + ": " + message);
 	}
 };
 

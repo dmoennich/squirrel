@@ -3,12 +3,8 @@ var Action = function (action) {
 	this.params = action.params;
 	this.func = action.func;
 };
-Action.prototype.execute = function (actor, reactor, params) {
-	return this.func({
-		actor: actor,
-		reactor: reactor,
-		params: params
-	});
+Action.prototype.execute = function (actor, reactor) {
+	return this.func(actor, reactor);
 };
 
 module.exports = Action;

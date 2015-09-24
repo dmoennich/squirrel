@@ -1,4 +1,4 @@
-var Environment = require("../entitites/Environment");
+var Environment = require("../entities/Environment");
 var RandomElement = require("../common/RandomElement");
 
 var SimpleEnvironmentProvider = function () {

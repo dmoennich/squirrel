@@ -1,30 +1,22 @@
 var RandomElement = require("../common/RandomElement");
-var Generator = function (personProvider, nonPersonProvider, environmentProvider,
-		contentProvider) {
-
+var Generator = function (personProvider, environmentProvider) {
 	this.personProvider = personProvider;
-	this.nonPersonProvider = nonPersonProvider;
 	this.environmentProvider = environmentProvider;
-	this.contentProvider = contentProvider;
-	this.createSetting();
+	this.createScene();
 };
 
-Generator.prototype.createSetting = function () {
-	this.setting = {
+Generator.prototype.createScene = function () {
+	this.scene = {
 		persons: this.personProvider.get(2),
 		environment: this.environmentProvider.get()
 	};
 };
 
 Generator.prototype.createEvent = function () {
-	var actor = RandomElement(this.setting.persons);
-		reactor = RandomElement(this.setting.persons);
+	var actor = RandomElement(this.scene.persons);
+		reactor = RandomElement(this.scene.persons);
 	var action = RandomElement(reactor.actions);
-	var params = {};
-	action.params.forEach(function (param) {
-		params[param] = this.contentProvider.get(param);
-	});
-	action.execute(actor, reactor, params);
+	action.execute(actor, reactor);
 };
 
 

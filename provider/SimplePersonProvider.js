@@ -13,7 +13,7 @@ var SimplePersonProvider = function () {
 	this.personActions = [talkAction];
 };
 SimplePersonProvider.prototype.get = function (personCount) {
-	var randomPersObj = RandomElement(this.persons),
+	var randomPersObj = RandomElement(this.personObjs),
 		personArr = [];
 
 	randomPersObj.actions = this.personActions;
@@ -21,7 +21,7 @@ SimplePersonProvider.prototype.get = function (personCount) {
 		personCount = 1;
 	}
 	while (personCount) {
-		randomPersObj = RandomElement(this.persons);
+		randomPersObj = RandomElement(this.personObjs);
 		randomPersObj.actions = this.personActions;
 		personArr.push(new Person(randomPersObj));
 		personCount -= 1;
