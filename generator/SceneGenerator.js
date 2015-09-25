@@ -13,10 +13,29 @@ generator.doAction();
 generator.doEvent();
 
 
-console.log("It's happening " + generator.scene.environment);
+console.log("It's happening " + generator.scene.environment.description);
+
+generator.scene.playSteps.forEach(function (step) {
+
+	switch (step.type) {
+
+		case "action":
+			console.log(step.message);
+			break;
+		case "event":
+			console.log(step.entity.description + "! (" + step.entity.name + ")");
+			step.messages.forEach(function (msg) {
+				console.log(msg);
+			});
+			break;
+		default:
+			throw new Error("Unknown playstep type " + step.type);
+
+	}
+
+});
 
 
-console.log(messages);
 
 
 

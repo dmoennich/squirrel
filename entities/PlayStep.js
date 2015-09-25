@@ -1,8 +1,6 @@
 var PlayStep = function (playStep) {
-
-	this.message = playStep.message;
-	this.actor = playStep.actor;
-	this.reactor = playStep.reactor;
-	this.event = playStep.event;
-
+	// need to check this
+	return playStep;
 };
+
+module.exports = PlayStep;

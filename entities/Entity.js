@@ -25,4 +25,6 @@ Entity.prototype.affectState = function (event) {
 		return "The " + event.name + " made " + this.name + " " + this.currentState;
 	}
 };
+
 module.exports = Entity;
+

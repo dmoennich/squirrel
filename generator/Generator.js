@@ -4,6 +4,7 @@ var Generator = function (personProvider, environmentProvider, eventProvider) {
 	this.personProvider = personProvider;
 	this.environmentProvider = environmentProvider;
 	this.eventProvider = eventProvider;
+	this.scene = {};
 };
 
 Generator.prototype.createScene = function (numOfActors) {
@@ -13,8 +14,6 @@ Generator.prototype.createScene = function (numOfActors) {
 		environment: this.environmentProvider.get(),
 		playSteps: []
 	};
-	// following goes into consumer (FE)
-	//return "It's happening " + this.scene.environment.description;
 };
 
 Generator.prototype.doAction = function () {
@@ -22,29 +21,35 @@ Generator.prototype.doAction = function () {
 		reactor = RandomElement(this.scene.persons),
 		action = RandomElement(reactor.actions);
 	var message = action.execute(actor, reactor);
-	this.addPlayStep({
-		type: action,
+	addPlayStep.call(this, {
+		type: "action",
+		entity: action,
 		actor: actor,
-		reactor: reactor
+		reactor: reactor,
+		message: message
 	});
 };
 
-Generator.prototype.addPlayStep = function (playStepObj) {
+var addPlayStep = function (playStepObj) {
 	this.scene.playSteps.push(new PlayStep(playStepObj));
 };
 
 Generator.prototype.doEvent = function () {
 	var event = this.eventProvider.get();
 	var affectedActors = [];
+	var messages = [];
 	this.scene.persons.forEach(function (person) {
 		var msg = person.affectState(event);
 		if (msg) {
+			messages.push(msg);
 			affectedActors.push(person);
 		}
 	});
-	this.addPlayStep({
-		type: event,
-		affectedActors: affectedActors
+	addPlayStep.call(this, {
+		type: "event",
+		entity: event,
+		affectedActors: affectedActors,
+		messages: messages
 	});
 };
 
