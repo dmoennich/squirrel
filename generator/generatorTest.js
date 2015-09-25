@@ -21,7 +21,6 @@ messages.push(generator.doAction());
 messages.push(generator.doAction());
 messages = messages.concat(generator.doEvent());
 
-console.log(messages);
 
 var logMessages = function () {
 	var msg = messages.shift();

@@ -24,7 +24,7 @@ Generator.prototype.doAction = function () {
 Generator.prototype.doEvent = function () {
 	var event = RandomElement(this.scene.events);
 	var messages = [];
-	messages.push(event.description + "!");
+	messages.push(event.description + "!" + " (" + event.name + ")");
 	this.scene.persons.forEach(function (person) {
 		var msg = person.affectState(event);
 		if (msg) {

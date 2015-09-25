@@ -6,13 +6,13 @@ var EventImpactTypes = require("../entities/EventImpactTypes");
 var events = [];
 events.push(new Event({
 	name: "Tornado",
-	description: "A tornado comes around the corner.",
+	description: "A tornado comes around the corner",
 	impactChance: 99,
 	impactType: EventImpactTypes.negative
 }));
 events.push(new Event({
 	name: "Rain",
-	description: "And I thought it couldn't get worse.",
+	description: "And we thought it couldn't get worse",
 	impactChance: 77,
 	impactType: EventImpactTypes.negative
 }));
