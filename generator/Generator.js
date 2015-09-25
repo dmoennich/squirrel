@@ -1,37 +1,51 @@
 var RandomElement = require("../common/RandomElement");
+var PlayStep = require("../entities/PlayStep");
 var Generator = function (personProvider, environmentProvider, eventProvider) {
 	this.personProvider = personProvider;
 	this.environmentProvider = environmentProvider;
 	this.eventProvider = eventProvider;
 };
 
-Generator.prototype.createScene = function () {
+Generator.prototype.createScene = function (numOfActors) {
+	numOfActors = numOfActors || 3;
 	this.scene = {
-		persons: this.personProvider.get(2),
+		persons: this.personProvider.get(numOfActors),
 		environment: this.environmentProvider.get(),
-		events: this.eventProvider.get(2)
+		playSteps: []
 	};
-	return "It's happening " + this.scene.environment.description;
+	// following goes into consumer (FE)
+	//return "It's happening " + this.scene.environment.description;
 };
 
 Generator.prototype.doAction = function () {
 	var actor = RandomElement(this.scene.persons),
 		reactor = RandomElement(this.scene.persons),
 		action = RandomElement(reactor.actions);
-	return action.execute(actor, reactor);
+	var message = action.execute(actor, reactor);
+	this.addPlayStep({
+		type: action,
+		actor: actor,
+		reactor: reactor
+	});
+};
+
+Generator.prototype.addPlayStep = function (playStepObj) {
+	this.scene.playSteps.push(new PlayStep(playStepObj));
 };
 
 Generator.prototype.doEvent = function () {
-	var event = RandomElement(this.scene.events);
-	var messages = [];
-	messages.push(event.description + "!" + " (" + event.name + ")");
+	var event = this.eventProvider.get();
+	var affectedActors = [];
 	this.scene.persons.forEach(function (person) {
 		var msg = person.affectState(event);
 		if (msg) {
-			messages.push(msg);
+			affectedActors.push(person);
 		}
 	});
-	return messages;
+	this.addPlayStep({
+		type: event,
+		affectedActors: affectedActors
+	});
 };
 
 

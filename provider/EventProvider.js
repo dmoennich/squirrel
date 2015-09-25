@@ -30,6 +30,7 @@ var EventProvider = function () {
 
 EventProvider.prototype.get = function (eventCount) {
 	var events = [];
+	eventCount = eventCount || 1;
 	while (eventCount > 0) {
 		events.push(RandomElement(this.events));
 		eventCount -= 1;
