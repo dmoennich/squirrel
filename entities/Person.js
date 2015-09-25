@@ -1,4 +1,6 @@
+var RandomElement = require("../common/RandomElement");
 var Entity = require("./Entity");
+
 var Person = function (person) {
 	Entity.call(this, person);
 	this.gender = person.gender;

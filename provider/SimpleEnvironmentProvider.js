@@ -3,8 +3,8 @@ var RandomElement = require("../common/RandomElement");
 
 var SimpleEnvironmentProvider = function () {
 	this.envObjs = [
-		{name: "kitchen", description: "a totally ordinary kitchen"},
-		{name: "forrest", desription: "three trees and some flowers"}
+		{name: "kitchen", description: "in a totally ordinary kitchen"},
+		{name: "forrest", description: "between three trees"}
 	];
 };
 SimpleEnvironmentProvider.prototype.get = function () {
