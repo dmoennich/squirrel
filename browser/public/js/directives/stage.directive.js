@@ -31,11 +31,15 @@ app.directive("stage", function () {
 					xmin = Math.floor((stageWidth / 100) * 20),
 					xmax = stageWidth - xmin - actorSize,
 					ymin = Math.floor((stageHeight / 100) * 50) - actorSize,
-					ymax = stageHeight - actorSize;
-					console.log("xmin", xmin);
-					console.log("xmax", xmax);
-					console.log("ymin", ymin);
-					console.log("ymax", ymax);
+					ymax = stageHeight - actorSize,
+					fontSize = 24;
+
+					ctx.font = fontSize + "px serif";
+
+					// console.log("xmin", xmin);
+					// console.log("xmax", xmax);
+					// console.log("ymin", ymin);
+					// console.log("ymax", ymax);
 
 				var getRandomCoord = function () {
 					return {
@@ -47,6 +51,7 @@ app.directive("stage", function () {
 				scene.persons.forEach(function (actor) {
 					var coord = getRandomCoord();
 					ctx.drawImage(actor.img, coord.x, coord.y, actorSize, actorSize);
+					ctx.fillText(actor.name, coord.x, coord.y + actorSize + fontSize);
 				});
 			};
 
