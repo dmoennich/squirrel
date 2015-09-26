@@ -1,6 +1,7 @@
 var express = require("express"),
 	morgan = require("morgan"),
 	path = require("path"),
+	sceneRoute = require("./routes/scene"),
 	app = express(),
 	server;
 
@@ -10,10 +11,7 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "/browser/public")));
 app.use(express.static(path.join(__dirname, "/node_modules")));
 
-app.get("/scene", function (request, response, next) {
-	console.log("Received request for new scene with keywords:", request.query.keywords);
-	response.json({data: "testscene"});
-});
+app.use("/api/scene", sceneRoute);
 
 app.use(function (req, res, next) {
 
