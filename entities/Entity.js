@@ -1,7 +1,9 @@
 var RandomElement = require("../common/RandomElement");
+var IdGenerator = require("../common/IdGenerator");
 var EventImpactTypes = require("./EventImpactTypes");
 
 var Entity = function (entity) {
+	this.id = IdGenerator();
 	this.name = entity.name;
 	this.actions = entity.actions;
 	this.states = entity.states;

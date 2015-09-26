@@ -7,29 +7,25 @@ app.config(function ($stateProvider) {
 		resolve: {
 			sceneObj: function (Theater, $stateParams) {
 				return Theater.getScene($stateParams.keywords);
-			},
-			stageObj: function (Theater) {
-				return Theater.getStage();
 			}
 		}
 	});
 
 });
 
-app.controller("StageCtrl", function ($scope, sceneObj, stageObj, Stage, Sound) {
+app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 
 	console.log("scene:", sceneObj);
-	console.log("stage:", stageObj);
 
+	Stage.placeActors(sceneObj.persons);
 
-	Stage.setStage(stageObj);
-	Stage.setActors(sceneObj.persons);
-	Stage.draw();
+	//console.log(sceneObj.persons[2].element);
 
 	var stepPromise = Promise.resolve();
 	sceneObj.playSteps.forEach(function (playStep) {
 
 		if (playStep.type === "action") {
+			console.log("playstep actor:", playStep.actor.element);
 			stepPromise = stepPromise.then(function () {
 				Stage.activateActor(playStep.actor);
 				return Sound.talk(playStep.actor, playStep.message);
