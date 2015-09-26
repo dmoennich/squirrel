@@ -8,7 +8,19 @@ var personObjs = [
 	{name: "Jim", gender: "male"},
 	{name: "Harry", gender: "male"},
 	{name: "Jane", gender: "female"},
-	{name: "Carol", gender: "female"}
+	{name: "Carol", gender: "female"},
+	{name: "John", gender: "male"},
+	{name: "Daniel", gender: "male"},
+	{name: "Elliot", gender: "male"},
+	{name: "Mickey", gender: "male"},
+	{name: "James", gender: "male"},
+	{name: "Lars", gender: "male"},
+	{name: "Billy", gender: "male"},
+	{name: "Jack", gender: "male"},
+	{name: "Lori", gender: "female"},
+	{name: "Briget", gender: "female"},
+	{name: "Nathalie", gender: "female"},
+	{name: "Crystal", gender: "female"}
 ];
 
 var states = {

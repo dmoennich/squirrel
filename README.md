@@ -1,7 +1,7 @@
 Squirrel
 
 TODO front-end:
-- create attribute directive for canvas
+- voice matching
 
 
 TODO back-end:
@@ -9,5 +9,4 @@ TODO back-end:
 - fully topic driven
 - events influence conversations
 - actors leave/enter scene
-- put pic on entity
 

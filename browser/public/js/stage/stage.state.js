@@ -19,7 +19,9 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 
 	Stage.placeActors(sceneObj.persons);
 
-	var stepPromise = Promise.resolve();
+
+	//var stepPromise = Promise.resolve();
+	var stepPromise = Sound.assignVoices(sceneObj.persons);
 	sceneObj.playSteps.forEach(function (playStep) {
 		if (playStep.type === "action") {
 			stepPromise = stepPromise.then(function () {

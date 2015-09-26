@@ -5,7 +5,7 @@ var talkActionObj = {
 	name: "talk",
 	func: function (actor, reactor) {
 		var message = MessageContentProvider.get();
-		return actor.name + " says to " + reactor.name + ": " + message;
+		return "Hey " + reactor.name + ", " + message;
 	}
 };
 
