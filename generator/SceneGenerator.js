@@ -2,7 +2,7 @@ var Generator = require("./Generator");
 var SimplePersonProvider = require("../provider/SimplePersonProvider");
 var SimpleEnvironmentProvider = require("../provider/SimpleEnvironmentProvider");
 var EventProvider = require("../provider/EventProvider");
-
+var StageProvider = require("../provider/StageProvider");
 
 var createScene = function () {
 
@@ -37,6 +37,8 @@ var createScene = function () {
 	// 	}
 
 	// });
+
+	generator.scene.stage = StageProvider();
 
 	return generator.scene;
 };

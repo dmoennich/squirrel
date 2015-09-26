@@ -32,7 +32,7 @@ function loadStage(){
 			}
 	};
 
-	loadImages(imageSources, drawStage);
+	//loadImages(imageSources, drawStage);
 
 
 }

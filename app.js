@@ -1,7 +1,6 @@
 var express = require("express"),
 	morgan = require("morgan"),
 	path = require("path"),
-	sceneRoute = require("./routes/scene"),
 	app = express(),
 	server;
 
@@ -11,7 +10,8 @@ app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "/browser/public")));
 app.use(express.static(path.join(__dirname, "/node_modules")));
 
-app.use("/api/scene", sceneRoute);
+app.use("/api/scene", require("./routes/scene"));
+app.use("/api/stage", require("./routes/stage"));
 
 app.use(function (req, res, next) {
 
