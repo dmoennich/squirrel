@@ -4,21 +4,26 @@ app.directive("stage", function (Images) {
 		restrict: "A",
 		scope: {
 			scene: "=",
-			stageObj: "="
+			stage: "="
 		},
-		link: function (scope, canvas, attributes) {
+		link: function (scope, element, attributes) {
 
-			var drawStage = function () {
-				if (canvas.getContext){
-					var ctx = canvas.getContext('2d');
-					ctx.drawImage(scope.stageObj.floor.img, 0, 0, window.innerWidth, window.innerHeight);
-					ctx.drawImage(scope.stageObj.curtain.img, 0, 0, window.innerWidth, window.innerHeight);
-				}
-			};
+			var canvas = element[0];
 
-			console.log("Element:", canvas);
+			if (canvas.getContext){
+				var ctx = canvas.getContext('2d');
+				console.log("floor img:", scope.stage.floor.img);
+				ctx.drawImage(scope.stage.floor.img, 0, 0, window.innerWidth, window.innerHeight);
+				ctx.drawImage(scope.stage.curtain.img, 0, 0, window.innerWidth, window.innerHeight);
+			}
+
+			//console.log("Element:", canvas);
 			console.log("scene:", scope.scene);
-			console.log("stage:", scope.stageObj);
+			console.log("stagee:", scope.stage);
+
+
+			console.log("floor img:", Object.keys(scope.stage.floor));
+
 			//Images.load(scope.stageObj, drawStage);
 		}
 	};

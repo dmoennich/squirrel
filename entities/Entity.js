@@ -5,6 +5,7 @@ var Entity = function (entity) {
 	this.name = entity.name;
 	this.actions = entity.actions;
 	this.states = entity.states;
+	this.picUrl = entity.picUrl || "/images/default_actor.gif";
 	this.setRandomState();
 };
 Entity.prototype.setRandomState = function (event) {
