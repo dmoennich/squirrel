@@ -16,8 +16,25 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller("StageCtrl", function ($scope, sceneObj, stageObj, Images) {
-	$scope.stage = stageObj;
-	$scope.scene = sceneObj;
+app.controller("StageCtrl", function ($scope, sceneObj, stageObj, Stage, Sound) {
+
+	console.log("scene:", sceneObj);
+	console.log("stage:", stageObj);
+
+
+	Stage.buildStage(stageObj);
+	Stage.placeActors(sceneObj.persons);
+
+
+
+	// play step loop
+	// for every step
+		// let actor jump (use factory)
+		// opt: print message on canvas
+		// let message read out (use another factory)
+
+
 
 });
+
+
