@@ -1,36 +1,38 @@
 app.factory("Stage", function () {
 
-	var stage = {};
-
+	var stage = {
+		stage: {},
+		actors: []
+	};
 
 	var canvas = document.querySelector('#mainstage'),
 		stageWidth = window.innerWidth,
 		stageHeight = window.innerHeight,
-		ctx = canvas.getContext('2d');
+		ctx = canvas.getContext('2d'),
+		actorSize = 70,
+		xmin = Math.floor((stageWidth / 100) * 20),
+		xmax = stageWidth - xmin - actorSize,
+		ymin = Math.floor((stageHeight / 100) * 50) - actorSize,
+		ymax = stageHeight - actorSize,
+		fontSize = 24;
 
-
-	stage.buildStage = function (stage) {
 		canvas.width = stageWidth;
 		canvas.height = stageHeight;
-		ctx.drawImage(stage.floor.img, 0, 0, stageWidth, stageHeight);
-		ctx.drawImage(stage.curtain.img, 0, 0, stageWidth, stageHeight);
+		ctx.font = fontSize + "px serif";
+
+
+	stage.setStage = function (stageObj) {
+		this.stage = stageObj;
+	};
+
+	stage.drawStage = function () {
+		ctx.drawImage(this.stage.floor.img, 0, 0, stageWidth, stageHeight);
+		ctx.drawImage(this.stage.curtain.img, 0, 0, stageWidth, stageHeight);
 	};
 
 
-	stage.placeActors = function (actors) {
-		var actorSize = 70,
-			xmin = Math.floor((stageWidth / 100) * 20),
-			xmax = stageWidth - xmin - actorSize,
-			ymin = Math.floor((stageHeight / 100) * 50) - actorSize,
-			ymax = stageHeight - actorSize,
-			fontSize = 24;
-
-			ctx.font = fontSize + "px serif";
-
-			// console.log("xmin", xmin);
-			// console.log("xmax", xmax);
-			// console.log("ymin", ymin);
-			// console.log("ymax", ymax);
+	stage.setActors = function (actors) {
+		this.actors = actors;
 
 		var getRandomCoord = function () {
 			return {
@@ -40,14 +42,28 @@ app.factory("Stage", function () {
 		};
 
 		actors.forEach(function (actor) {
-			var coord = getRandomCoord();
-			ctx.drawImage(actor.img, coord.x, coord.y, actorSize, actorSize);
-			ctx.fillText(actor.name, coord.x, coord.y + actorSize + fontSize);
+			actor.coord = getRandomCoord();
 		});
 	};
 
 
+	stage.drawActor = function (actor) {
+		ctx.drawImage(actor.img, actor.coord.x, actor.coord.y, actorSize, actorSize);
+		ctx.fillText(actor.name, actor.coord.x, actor.coord.y + actorSize + fontSize);
+	};
 
+	stage.activateActor = function (actor) {
+		console.log(actor.name, "is active");
+	};
+
+	stage.deactivateActor = function (actor) {
+		console.log(actor.name, "is inactive");
+	};
+
+	stage.draw = function () {
+		this.drawStage();
+		this.actors.forEach(this.drawActor);
+	};
 
 
 	return stage;

@@ -22,17 +22,24 @@ app.controller("StageCtrl", function ($scope, sceneObj, stageObj, Stage, Sound) 
 	console.log("stage:", stageObj);
 
 
-	Stage.buildStage(stageObj);
-	Stage.placeActors(sceneObj.persons);
+	Stage.setStage(stageObj);
+	Stage.setActors(sceneObj.persons);
+	Stage.draw();
 
+	var stepPromise = Promise.resolve();
+	sceneObj.playSteps.forEach(function (playStep) {
 
+		if (playStep.type === "action") {
+			stepPromise = stepPromise.then(function () {
+				Stage.activateActor(playStep.actor);
+				return Sound.talk(playStep.actor, playStep.message);
+			})
+			.then(function () {
+				return Stage.deactivateActor(playStep.actor);
+			});
+		}
 
-	// play step loop
-	// for every step
-		// let actor jump (use factory)
-		// opt: print message on canvas
-		// let message read out (use another factory)
-
+	});
 
 
 });
