@@ -15,7 +15,6 @@ app.factory("Images", function ($http) {
 					objWithUrl.img = img;
 					loadedImages += 1;
 					if (loadedImages === objsWithPicUrl.length) {
-						console.log("Promise resolved!");
 						resolve(objsWithPicUrl);
 					}
 				};

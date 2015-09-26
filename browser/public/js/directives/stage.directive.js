@@ -1,4 +1,4 @@
-app.directive("stage", function (Images) {
+app.directive("stage", function () {
 
 	return {
 		restrict: "A",
@@ -8,23 +8,53 @@ app.directive("stage", function (Images) {
 		},
 		link: function (scope, element, attributes) {
 
-			var canvas = element[0];
+			var canvas = element[0],
+				stage = scope.stage,
+				scene = scope.scene,
+				ctx = canvas.getContext('2d'),
+				stageWidth = window.innerWidth,
+				stageHeight = window.innerHeight;
 
-			if (canvas.getContext){
-				var ctx = canvas.getContext('2d');
-				console.log("floor img:", scope.stage.floor.img);
-				ctx.drawImage(scope.stage.floor.img, 0, 0, window.innerWidth, window.innerHeight);
-				ctx.drawImage(scope.stage.curtain.img, 0, 0, window.innerWidth, window.innerHeight);
-			}
+			console.log("scene:", scene);
+			console.log("stage:", stage);
 
-			//console.log("Element:", canvas);
-			console.log("scene:", scope.scene);
-			console.log("stagee:", scope.stage);
+			var buildStage = function () {
+				canvas.width = stageWidth;
+				canvas.height = stageHeight;
+				ctx.drawImage(stage.floor.img, 0, 0, stageWidth, stageHeight);
+				ctx.drawImage(stage.curtain.img, 0, 0, stageWidth, stageHeight);
+			};
 
 
-			console.log("floor img:", Object.keys(scope.stage.floor));
+			var placeActors = function () {
+				var actorSize = 70,
+					xmin = Math.floor((stageWidth / 100) * 20),
+					xmax = stageWidth - xmin - actorSize,
+					ymin = Math.floor((stageHeight / 100) * 50) - actorSize,
+					ymax = stageHeight - actorSize;
+					console.log("xmin", xmin);
+					console.log("xmax", xmax);
+					console.log("ymin", ymin);
+					console.log("ymax", ymax);
 
-			//Images.load(scope.stageObj, drawStage);
+				var getRandomCoord = function () {
+					return {
+						x: xmin + Math.round(Math.random() * (xmax-xmin)),
+						y: ymin + Math.round(Math.random() * (ymax-ymin))
+					};
+				};
+
+				scene.persons.forEach(function (actor) {
+					var coord = getRandomCoord();
+					ctx.drawImage(actor.img, coord.x, coord.y, actorSize, actorSize);
+				});
+			};
+
+			buildStage();
+
+
+			placeActors();
+
 		}
 	};
 });

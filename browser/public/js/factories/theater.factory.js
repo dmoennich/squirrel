@@ -9,9 +9,6 @@ app.factory("Theater", function ($http, Images) {
 		})
 		.then(function () {
 			return scene;
-		})
-		.catch(function (error) {
-			console.error("Error fetching the person images", error);
 		});
 	};
 	theater.getStage = function () {
@@ -23,11 +20,7 @@ app.factory("Theater", function ($http, Images) {
 			return Images.load(floorAndCurtain);
 		})
 		.then(function () {
-			console.log("stage after loading:", stage);
 			return stage;
-		})
-		.catch(function (error) {
-			console.error("Error fetching the stage images", error);
 		});
 	};
 	return theater;
