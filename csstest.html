@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="/" />
+    <meta charset="utf-8"/>
+    <title>Generic Theater</title>
+    <style type="text/css">
+    .stage {
+    /* Set rules to fill background */
+      min-height: 100%;
+      min-width: 1024px;
+
+      /* Set up proportionate scaling */
+      width: 100%;
+      height: auto;
+
+      /* Set up positioning */
+      position: fixed;
+      top: 0;
+      left: 0;
+
+      z-index: -1;
+    }
+    .actor {
+      position: absolute;
+      top: 500px;
+      left: 400px;
+      z-index: 1;
+    }
+
+    .animated {
+        -webkit-animation-duration: 1s;
+        animation-duration: 1s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        animation-iteration-count:infinite;
+        -webkit-animation-iteration-count:infinite;
+    }
+
+    @-webkit-keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {-webkit-transform: translateY(0);}
+        40% {-webkit-transform: translateY(-30px);}
+        60% {-webkit-transform: translateY(-15px);}
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+        40% {transform: translateY(-30px);}
+        60% {transform: translateY(-15px);}
+    }
+
+    .bounce {
+        -webkit-animation-name: bounce;
+        animation-name: bounce;
+    }
+
+    </style>
+  </head>
+  <body>
+    <img class="stage" src="http://localhost:8080/images/background.png">
+        <img class="stage" src="http://localhost:8080/images/floor.gif">
+      <img class="stage" src="http://localhost:8080/images/curtain.gif">
+      <div class="actor animated bounce">
+        <img src="http://localhost:8080/images/default_actor.gif">
+        Daniel
+      </div>
+  </body>
+</html>
