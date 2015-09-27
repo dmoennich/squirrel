@@ -38,7 +38,7 @@ var createScene = function () {
 
 	// });
 
-	generator.scene.stage = StageProvider();
+	//generator.scene.stage = StageProvider();
 
 	return generator.scene;
 };

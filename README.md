@@ -1,8 +1,7 @@
 Squirrel
 
 TODO front-end:
-- set background according to topic
-- show picture for events
+- make end event
 
 
 

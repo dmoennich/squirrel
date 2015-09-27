@@ -17,6 +17,8 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 
 	console.log("scene:", sceneObj);
 
+	Stage.setBackground(sceneObj.environment);
+
 	Stage.placeActors(sceneObj.persons);
 
 
@@ -35,7 +37,13 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 	var stepPromise = Sound.assignVoices(sceneObj.persons);
 
 	stepPromise = stepPromise.then(function () {
-		return Sound.narrateEvent("It's happening " + sceneObj.environment.description);
+		var message = "It's happening " + sceneObj.environment.description + "...";
+		Stage.showNarrator();
+		Stage.showSign(message);
+		return Sound.narrateEvent(message);
+	}).then(function () {
+		Stage.hideNarrator();
+		Stage.hideSign();
 	});
 
 	sceneObj.playSteps.forEach(function (playStep) {
@@ -47,9 +55,12 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 
 		if (playStep.type === "event") {
 			stepPromise = stepPromise.then(function () {
+				Stage.showNarrator();
+				Stage.activateEvent(playStep.entity);
 				return Sound.narrateEvent(playStep.entity.description);
 			})
 			.then(function () {
+				Stage.hideNarrator();
 				playStep.affectedActors.forEach(function (affectedPerson) {
 					stepPromise = stepPromise
 					.then(function () {

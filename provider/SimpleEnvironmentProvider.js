@@ -3,7 +3,7 @@ var RandomElement = require("../common/RandomElement");
 
 var SimpleEnvironmentProvider = function () {
 	this.envObjs = [
-		{name: "kitchen", description: "in a totally ordinary kitchen"},
+		{name: "kitchen", description: "in a totally ordinary kitchen", picUrl: "/images/kitchen.jpg"},
 		{name: "forrest", description: "between three trees"}
 	];
 };

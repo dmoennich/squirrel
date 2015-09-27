@@ -18,6 +18,12 @@ app.factory("Stage", function () {
 		};
 	};
 
+	stage.setBackground = function (environment) {
+		var bkgElement = getElementById("stageBackground");
+		bkgElement.attr("src", environment.picUrl);
+	};
+
+
 	stage.placeActors = function (actors) {
 		var stageFloor = angular.element(document.querySelector('#stagefloor'));
 		actors.forEach(function (actor) {
@@ -36,25 +42,66 @@ app.factory("Stage", function () {
 
 	};
 
-	var getActorElement = function (id) {
+	var getElementById = function (id) {
 		return angular.element(document.querySelector('#' + id));
 	};
 
-
 	stage.activateActor = function (actor) {
-		var actorElement = getActorElement(actor.id);
+		var actorElement = getElementById(actor.id);
 		actorElement.addClass("animated bounce");
 		console.log(actor.name, "is active");
 	};
 
 	stage.deactivateActor = function (actor) {
-		var actorElement = getActorElement(actor.id);
+		var actorElement = getElementById(actor.id);
 		actorElement.removeClass("animated bounce");
 		console.log(actor.name, "is inactive");
 	};
 
+	stage.activateEvent = function (event) {
+		var stageFloor = getElementById("stagefloor");
+		stageFloor.append("<div id='" +event.id+ "'' class='event animated pulse'></div>");
+		var element = stageFloor.children().last();
+		var coord = getRandomCoord();
+		element.append("<img src='" +event.picUrl+ "'>");
+		element.append("<div class='event-label'>" + event.name + "</div>");
+		element.css({
+			left: coord.x + "px",
+			top: coord.y + "px"
+		});
+	};
+
+
+	stage.showSign = function (text) {
+		var sign = getElementById("sign");
+		sign.text(text);
+		sign.addClass("animatedOnce5 bounceInLeft");
+	};
+
+	stage.hideSign = function () {
+		var sign = getElementById("sign");
+		sign.removeClass("animatedOnce5 bounceInLeft");
+		sign.addClass("animatedOnce2 fadeOut");
+	};
+
+
+	stage.showNarrator = function () {
+		var sign = getElementById("narrator");
+		sign.addClass("animatedOnce2 fadeIn");
+	};
+
+	stage.hideNarrator = function () {
+		var sign = getElementById("narrator");
+		sign.removeClass("animatedOnce1 fadeIn");
+		sign.addClass("animatedOnce2 fadeOut");
+	};
 
 
 	return stage;
 
 });
+
+
+
+
+
