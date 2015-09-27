@@ -12,13 +12,13 @@ events.push(new Event({
 }));
 events.push(new Event({
 	name: "Rain",
-	description: "And we thought it couldn't get worse",
+	description: "It's starting to rain. And we thought it couldn't get worse",
 	impactChance: 77,
 	impactType: EventImpactTypes.negative
 }));
 events.push(new Event({
 	name: "Touch Down",
-	description: "Yeah Yeah Yeah",
+	description: "Touch down, yeah, yeah, yeah",
 	impactChance: 99,
 	impactType: EventImpactTypes.positive
 }));

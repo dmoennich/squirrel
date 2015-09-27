@@ -1,7 +1,9 @@
 Squirrel
 
 TODO front-end:
-- voice matching
+- set background according to topic
+- show environment message (it's happening between trees)
+
 
 
 TODO back-end:

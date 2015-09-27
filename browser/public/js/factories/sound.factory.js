@@ -13,6 +13,7 @@ app.factory("Sound", function () {
 	};
 
 	var voiceConfigs = [
+		{voice: "Google UK English Male", rate: 0.5, pitch: 1, gender: "narrator"},
 		{voice: "Fred", rate: 1.5, pitch: 2, gender: "male"},
 		{voice: "Daniel", rate: 1, pitch: 1, gender: "male"},
 		{voice: "Vicky", rate: 1, pitch: 1, gender: "female"},
@@ -48,12 +49,12 @@ app.factory("Sound", function () {
 		return new Promise(function (resolve, reject) {
 			window.speechSynthesis.onvoiceschanged = function() {
 				voices = window.speechSynthesis.getVoices();
+				assignVoice({id: "narrator", gender: "narrator"});
 				actors.forEach(assignVoice);
 				resolve();
 			};
 		});
 	};
-
 
 	sound.talk = function (actor, message) {
 		return new Promise(function (resolve, reject) {
@@ -66,6 +67,31 @@ app.factory("Sound", function () {
 			window.speechSynthesis.speak(msg);
 
 		});
+	};
+
+
+	sound.getStateMessage = function (eventName, state) {
+		var messages = [];
+		messages.push("The " + eventName + " made me " + state);
+		messages.push("I'm feeling " + state + " because of the " + eventName);
+		return getRandomElement(messages);
+	};
+
+
+	sound.narrateEvent = function (message) {
+
+		return this.talk({id: "narrator"}, message);
+
+		// var thisTalk = this.talk.bind(this);
+
+		// playStep.affectedActors.forEach(function (affectedPerson) {
+		// 	talkPromise = talkPromise.then(function () {
+		// 		var message = getStateMessage(playStep.entity.name, affectedPerson.currentState);
+		// 		return thisTalk(affectedPerson, message);
+		// 	});
+		// });
+
+		// return talkPromise;
 	};
 
 
