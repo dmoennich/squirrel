@@ -1,7 +1,7 @@
 Squirrel
 
 TODO front-end:
-- make end event
+- make end event / maybe
 
 
 
