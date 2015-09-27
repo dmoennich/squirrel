@@ -20,15 +20,24 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 	Stage.placeActors(sceneObj.persons);
 
 
+	var actorActs = function (actor, message) {
+		return new Promise.resolve()
+		.then(function () {
+			Stage.activateActor(actor);
+			return Sound.talk(actor, message);
+		})
+		.then(function () {
+			return Stage.deactivateActor(actor);
+		});
+	};
+
+
 	var stepPromise = Sound.assignVoices(sceneObj.persons);
+
 	sceneObj.playSteps.forEach(function (playStep) {
 		if (playStep.type === "action") {
 			stepPromise = stepPromise.then(function () {
-				Stage.activateActor(playStep.actor);
-				return Sound.talk(playStep.actor, playStep.message);
-			})
-			.then(function () {
-				return Stage.deactivateActor(playStep.actor);
+				return actorActs(playStep.actor, playStep.message);
 			});
 		}
 
@@ -38,13 +47,10 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 			})
 			.then(function () {
 				playStep.affectedActors.forEach(function (affectedPerson) {
-					stepPromise = stepPromise.then(function () {
-						return Stage.activateActor(affectedPerson);
-					}).then(function () {
+					stepPromise = stepPromise
+					.then(function () {
 						var message = Sound.getStateMessage(playStep.entity.name, affectedPerson.currentState);
-						return Sound.talk(affectedPerson, message);
-					}).then(function () {
-						return Stage.deactivateActor(affectedPerson);
+						return actorActs(affectedPerson, message);
 					});
 				});
 			});
