@@ -34,6 +34,10 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 
 	var stepPromise = Sound.assignVoices(sceneObj.persons);
 
+	stepPromise = stepPromise.then(function () {
+		return Sound.narrateEvent("It's happening " + sceneObj.environment.description);
+	});
+
 	sceneObj.playSteps.forEach(function (playStep) {
 		if (playStep.type === "action") {
 			stepPromise = stepPromise.then(function () {
