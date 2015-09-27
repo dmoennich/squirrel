@@ -1,5 +1,5 @@
 var Action = require("../Action");
-var MessageContentProvider = require("../MessageContentProvider")();
+var MessageContentProvider = require("../../provider/MessageContentProvider")();
 
 var talkActionObj = {
 	name: "talk",
