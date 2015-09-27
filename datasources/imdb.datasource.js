@@ -11,11 +11,14 @@ var IMDB_URL = {
 	findByTitle: function (title) {
 		return this.base + "/find?ref_=nv_sr_fn&s=all&q=" + querystring.escape(title);
 	},
-	movieCastPage: function (movieId) {
+	castPage: function (movieId) {
 		return this.base + "/title/" + movieId + "/fullcredits";
 	},
-	movieQuotesPage: function (movieId) {
+	quotesPage: function (movieId) {
 		return this.base + "/title/" + movieId + "/trivia?tab=qt";
+	},
+	synopsisPage: function (movieId) {
+		return this.base + "/title/" + movieId + "/synopsis?ref_=tt_stry_pl";
 	}
 };
 
@@ -58,7 +61,7 @@ var getMovieIdByTitle = function (movieTitle) {
 ImdbData.getMovieCharacters = function (movieTitle) {
 	return getMovieIdByTitle(movieTitle)
 	.then(function (movieId) {
-		return fetchHtml(IMDB_URL.movieCastPage(movieId));
+		return fetchHtml(IMDB_URL.castPage(movieId));
 	})
 	.then(function ($castPage) {
 		var allCharacters = $castPage(".cast_list .character").find("a");
@@ -73,7 +76,7 @@ ImdbData.getMovieCharacters = function (movieTitle) {
 ImdbData.getMovieQuotes = function (movieTitle) {
 	return getMovieIdByTitle(movieTitle)
 	.then(function (movieId) {
-		return fetchHtml(IMDB_URL.movieQuotesPage(movieId));
+		return fetchHtml(IMDB_URL.quotesPage(movieId));
 	})
 	.then(function ($quotesPage) {
 
@@ -119,18 +122,33 @@ ImdbData.getMovieQuotes = function (movieTitle) {
 };
 
 
-ImdbData.getMovieQuotes("Star Wars").then(function (quotes) {
-	console.log("quotes length:", quotes.length);
+ImdbData.getSynopsis = function (movieTitle) {
+	return getMovieIdByTitle(movieTitle)
+	.then(function (movieId) {
+		return fetchHtml(IMDB_URL.synopsisPage(movieId));
+	})
+	.then(function ($synPage) {
+		var synopsis = $synPage("#swiki_body").text();
+
+		//remove things in brackets, mostly actor names
+		synopsis = synopsis.replace(/\([^\)].*?\)/g, "");
+
+		//remove tags
+		synopsis = synopsis.replace(/<(?:.|\n)*?>/g, "");
+
+		return synopsis;
+	});
+};
 
 
-	console.log(quotes[0]);
+// ImdbData.getMovieQuotes("Star Wars").then(function (quotes) {
+// 	console.log("quotes length:", quotes.length);
+// 	console.log(quotes[0]);
+// });
 
 
-	// console.log("conversation:", conversation);
-	// console.log("characters:", characters);
-	// console.log("quotes:", quotes[1]);
-	// console.log("quotes:", quotes[2]);
-	// console.log("quotes:", quotes[3]);
+ImdbData.getSynopsis("Star Wars").then(function (syn) {
+	console.log("Synopsis:", syn);
 });
 
 
