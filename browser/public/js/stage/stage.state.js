@@ -13,7 +13,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
+app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, LoaderSpinner) {
 
 	console.log("scene:", sceneObj);
 
@@ -75,6 +75,7 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 
 	});
 
+	LoaderSpinner.hide();
 
 });
 

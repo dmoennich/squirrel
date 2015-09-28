@@ -10,9 +10,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 });
 
-app.controller("HomeCtrl", function ($scope, $state) {
+app.controller("HomeCtrl", function ($scope, $state, LoaderSpinner) {
+
+	LoaderSpinner.hide();
 
 	$scope.loadStage = function () {
+		LoaderSpinner.show();
 		$state.go("stage", {"keywords": $scope.keywords});
 	};
 
