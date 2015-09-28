@@ -4,12 +4,13 @@ app.factory("Stage", function () {
 
 	var stageWidth = window.innerWidth,
 		stageHeight = window.innerHeight,
-		actorSize = 70,
+		actorSize = 100,
+		fontSize = 24,
 		xmin = Math.floor((stageWidth / 100) * 20),
 		xmax = stageWidth - xmin - actorSize,
 		ymin = Math.floor((stageHeight / 100) * 50) - actorSize,
-		ymax = stageHeight - actorSize,
-		fontSize = 24;
+		ymax = stageHeight - (actorSize + fontSize);
+
 
 	var getRandomCoord = function () {
 		return {

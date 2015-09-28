@@ -5,8 +5,59 @@ var simplePersonProvider = new SimplePersonProvider();
 var PlayStep = require("../entities/PlayStep");
 var EventProvider = require("../provider/EventProvider");
 var eventProvider = new EventProvider();
+var googleImg = require("google-images");
+var Promise = require("bluebird");
 
 var scene;
+
+var getImageUrl = function (keyword) {
+	return new Promise(function (resolve, reject) {
+		googleImg.search(keyword, function (error, images) {
+			if (error) {
+				reject("ERROR:" + error);
+			}
+			var randomImage = removeRandomElement(images);
+			console.log("loaded pic:", randomImage.url);
+			resolve(randomImage.url);
+		});
+	});
+};
+
+
+var loadAllPicUrls = function () {
+
+	var promise = Promise.resolve();
+
+	// background
+	promise = promise.then(function () {
+		return getImageUrl(scene.environment.name + " background");
+	}).then(function (bkgPicUrl) {
+		scene.environment.picUrl = bkgPicUrl;
+	});
+
+	// all events
+	scene.playSteps.forEach(function (playStep) {
+		if (playStep.type === "event") {
+			promise = promise.then(function () {
+				return getImageUrl(playStep.entity.name);
+			}).then(function (eventPicUrl) {
+				playStep.entity.picUrl = eventPicUrl;
+			});
+		}
+	});
+
+	// all actors
+	// scene.persons.forEach(function (person) {
+	// 	promise = promise.then(function () {
+	// 		return getImageUrl(person.name);
+	// 	}).then(function (picUrl) {
+	// 		person.picUrl = picUrl;
+	// 	});
+	// });
+
+	return promise;
+};
+
 
 var removeRandomElement = function (array) {
 	if (!array.length) {
@@ -31,6 +82,7 @@ var createEvent = function (anEvent) {
 	var event = eventProvider.get();
 	event.name = anEvent.name;
 	event.description = anEvent.name;
+	event.picUrl = anEvent.picUrl;
 	var affectedActors = [];
 	var messages = [];
 	scene.persons.forEach(function (person) {
@@ -84,20 +136,18 @@ var createScene = function (movieTitle) {
 	.then(function (receivedSynopsis) {
 		synopsis = receivedSynopsis;
 		return dand.getEntities(receivedSynopsis);
-		//return dand.getPlaces(synopsis);
 	}).then(function (entities) {
 		var places = dand.getPlaces(entities);
 		var place = removeRandomElement(places);
+		events = dand.getEvents(entities);
 		scene.environment = {
 			name: place.name,
 			description: place.name,
-			picUrl: "/images/kitchen.jpg" // fetch from pic search
+			picUrl: "/images/kitchen.jpg"
 		};
-		events = dand.getEvents(entities);
 		return imdb.getMovieQuotes(movieTitle);
 	}).then(function (quotes) {
 		var numberConv = 3;
-		//console.log("first quote", quotes[0]);
 		numberConv = quotes.length < numberConv ? quotes.length : numberConv;
 		for (var i = 0; i < numberConv; i++) {
 			selectedQuotes.push(removeRandomElement(quotes));
@@ -127,6 +177,8 @@ var createScene = function (movieTitle) {
 
 		});
 
+		return loadAllPicUrls();
+	}).then(function () {
 		return scene;
 	});
 

@@ -38,9 +38,19 @@
 	z-index: 2;
 }
 
+.event img {
+    width: 100px;
+    height: 100px;
+}
+
 .actor {
 	position: absolute;
 	z-index: 1;
+}
+
+.actor img {
+    width: 100px;
+    height: 100px;
 }
 
 .actor-label, .event-label {
