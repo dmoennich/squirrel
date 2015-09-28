@@ -17,7 +17,7 @@ app.factory("Sound", function () {
 		{voice: "Fred", rate: 1.5, pitch: 2, gender: "male"},
 		{voice: "Daniel", rate: 1, pitch: 1, gender: "male"},
 		{voice: "Vicky", rate: 1, pitch: 1, gender: "female"},
-		{voice: "Pipe Organ", rate: 1, pitch: 1, gender: "male"},
+		// {voice: "Pipe Organ", rate: 1, pitch: 1, gender: "male"},
 		{voice: "Ting-Ting", rate: 1, pitch: 1, gender: "female"},
 		{voice: "Whisper", rate: 1, pitch: 1, gender: "male"},
 		{voice: "Vicky", rate: 1.5, pitch: 1.5, gender: "female"}

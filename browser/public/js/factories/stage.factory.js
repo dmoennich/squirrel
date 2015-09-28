@@ -8,7 +8,7 @@ app.factory("Stage", function () {
 		fontSize = 24,
 		xmin = Math.floor((stageWidth / 100) * 20),
 		xmax = stageWidth - xmin - actorSize,
-		ymin = Math.floor((stageHeight / 100) * 50) - actorSize,
+		ymin = Math.floor((stageHeight / 100) * 60),
 		ymax = stageHeight - (actorSize + fontSize);
 
 
