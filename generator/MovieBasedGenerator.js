@@ -11,7 +11,7 @@ var Promise = require("bluebird");
 var scene;
 
 var getImageUrl = function (keyword) {
-	var randPage = Math.round(Math.random() * 10);
+	var randPage = Math.round(Math.random() * 5);
 	return new Promise(function (resolve, reject) {
 		googleImg.search({
 			page: randPage,
