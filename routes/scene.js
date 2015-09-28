@@ -4,7 +4,8 @@ module.exports = router;
 
 router.get("/", function (request, response, next) {
 	console.log("hit new scene route");
-	SceneGenerator.createScene(request.query.keywords)
+	var keywords = request.query.keywords || "Star Wars";
+	SceneGenerator.createScene(keywords)
 	.then(function (scene) {
 		response.json(scene);
 	}).then(null, function (error) {

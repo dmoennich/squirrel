@@ -115,7 +115,7 @@ var createScene = function (movieTitle) {
 
 		// put all together
 		selectedQuotes.forEach(function (quote, index) {
-			console.log("selected quote:", JSON.stringify(quote, null, 4));
+			//console.log("selected quote:", JSON.stringify(quote, null, 4));
 			quote.lines.forEach(function (line) {
 				var actor = charactersFromQuotes[line.character];
 				createMessageAction(actor, line.message);
