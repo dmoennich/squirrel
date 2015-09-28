@@ -109,10 +109,14 @@ ImdbData.getMovieQuotes = function (movieTitle) {
 				});
 				characters[character] = 1;
 			}
-			conversations.push({
-				characters: characters,
-				lines: conversation
-			});
+
+			// sometimes empty quotes?
+			if (Object.keys(characters).length && conversation.length) {
+				conversations.push({
+					characters: characters,
+					lines: conversation
+				});
+			}
 
 		});
 
@@ -147,9 +151,9 @@ ImdbData.getSynopsis = function (movieTitle) {
 // });
 
 
-ImdbData.getSynopsis("Star Wars").then(function (syn) {
-	console.log("Synopsis:", syn);
-});
+// ImdbData.getSynopsis("Star Wars").then(function (syn) {
+// 	console.log("Synopsis:", syn);
+// });
 
 
 // ImdbData.getMovieCharacters("Star Wars").then(function (characters) {

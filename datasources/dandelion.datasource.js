@@ -1,7 +1,6 @@
 var request = require("request");
 var Promise = require("bluebird");
 var api = require("./secret_dandelion.json");
-//var querystring = require("querystring");
 
 var DandData = {};
 module.exports = DandData;
@@ -19,7 +18,7 @@ DandData.getEntities = function (text) {
 			url: "https://api.dandelion.eu/datatxt/nex/v1?$app_id=" + appId + "&$app_key=" + appKey,
 			form: {
 				text: text,
-				include: "categories",
+				include: "categories,abstract",
 				language: "en",
 				epsilon: "0.4"
 			}
@@ -36,11 +35,13 @@ DandData.getEntities = function (text) {
 
 };
 
-
 DandData.getEntitiesByCategories = function (entities, identifier) {
 	var foundEntities = [];
 
 	var matchesCat = function (categories) {
+		if (!categories) {
+			return false;
+		}
 		categories = categories.join(" ").toLowerCase();
 		return identifier.some(function (identifier) {
 			return categories.indexOf(identifier) > -1;
@@ -49,7 +50,7 @@ DandData.getEntitiesByCategories = function (entities, identifier) {
 
 	entities.forEach(function (entity) {
 		if (matchesCat(entity.categories)) {
-			foundEntities.push(entity.spot);
+			foundEntities.push({name: entity.spot});
 		}
 	});
 
