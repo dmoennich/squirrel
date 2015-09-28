@@ -7,19 +7,19 @@ var events = [];
 events.push(new Event({
 	name: "Tornado",
 	description: "A tornado comes around the corner",
-	impactChance: 99,
+	impactChance: 90,
 	impactType: EventImpactTypes.negative
 }));
 events.push(new Event({
 	name: "Rain",
 	description: "It's starting to rain. And we thought it couldn't get worse",
-	impactChance: 77,
-	impactType: EventImpactTypes.negative
+	impactChance: 70,
+	impactType: EventImpactTypes.positive
 }));
 events.push(new Event({
 	name: "Touch Down",
 	description: "Touch down, yeah, yeah, yeah",
-	impactChance: 99,
+	impactChance: 90,
 	impactType: EventImpactTypes.positive
 }));
 

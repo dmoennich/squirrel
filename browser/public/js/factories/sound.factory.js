@@ -74,6 +74,12 @@ app.factory("Sound", function () {
 		var messages = [];
 		messages.push("The " + eventName + " made me " + state);
 		messages.push("I'm feeling " + state + " because of the " + eventName);
+		messages.push("Uhh, I'm so " + state);
+		messages.push(state + ", oh yes!");
+		messages.push("Look at that " + eventName);
+		messages.push("Oh nice, a " + eventName);
+		messages.push("Oh my god, it's a real " + eventName);
+		messages.push("Ahh, those " + eventName + " make me feel " + state);
 		return getRandomElement(messages);
 	};
 
