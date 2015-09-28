@@ -61,12 +61,13 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 			})
 			.then(function () {
 				Stage.hideNarrator();
-				playStep.affectedActors.forEach(function (affectedPerson) {
-					stepPromise = stepPromise
-					.then(function () {
-						var message = Sound.getStateMessage(playStep.entity.name, affectedPerson.currentState);
-						return actorActs(affectedPerson, message);
-					});
+			});
+
+			playStep.affectedActors.forEach(function (affectedPerson) {
+				stepPromise = stepPromise
+				.then(function () {
+					var message = Sound.getStateMessage(playStep.entity.name, affectedPerson.currentState);
+					return actorActs(affectedPerson, message);
 				});
 			});
 		}
