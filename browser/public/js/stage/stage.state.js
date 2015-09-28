@@ -37,7 +37,7 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater) {
 	var stepPromise = Sound.assignVoices(sceneObj.persons);
 
 	stepPromise = stepPromise.then(function () {
-		var message = "It's happening in or on " + sceneObj.environment.description + "...";
+		var message = "It's happening in " + sceneObj.environment.description + "...";
 		Stage.showNarrator();
 		Stage.showSign(message);
 		return Sound.narrateEvent(message);

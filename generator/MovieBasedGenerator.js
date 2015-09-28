@@ -11,14 +11,19 @@ var Promise = require("bluebird");
 var scene;
 
 var getImageUrl = function (keyword) {
+	var randPage = Math.round(Math.random() * 10);
 	return new Promise(function (resolve, reject) {
-		googleImg.search(keyword, function (error, images) {
-			if (error) {
-				reject("ERROR:" + error);
+		googleImg.search({
+			page: randPage,
+			for: keyword,
+			callback: function (error, images) {
+				if (error) {
+					reject("ERROR:" + error);
+				}
+				var randomImage = removeRandomElement(images);
+				console.log("loaded pic:", randomImage.url);
+				resolve(randomImage.url);
 			}
-			var randomImage = removeRandomElement(images);
-			console.log("loaded pic:", randomImage.url);
-			resolve(randomImage.url);
 		});
 	});
 };
