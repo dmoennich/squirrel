@@ -82,6 +82,9 @@ var createMessageAction = function (actor, message, scene) {
 };
 
 var createEvent = function (anEvent, scene) {
+	if (!anEvent) {
+		return;
+	}
 	var event = eventProvider.get();
 	event.name = anEvent.name;
 	event.description = anEvent.name;
