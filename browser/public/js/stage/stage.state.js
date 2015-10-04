@@ -5,6 +5,9 @@ app.config(function ($stateProvider) {
 		templateUrl: "/js/stage/stage.html",
 		controller: "StageCtrl",
 		resolve: {
+			loader: function (LoaderSpinner) {
+				LoaderSpinner.show();
+			},
 			sceneObj: function (Theater, $stateParams) {
 				return Theater.getScene($stateParams.keywords);
 			}
@@ -14,6 +17,7 @@ app.config(function ($stateProvider) {
 });
 
 app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, LoaderSpinner) {
+
 
 	console.log("scene:", sceneObj);
 
