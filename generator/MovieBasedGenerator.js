@@ -145,7 +145,7 @@ var createScene = function (movieTitle) {
 		return dand.getEntities(receivedSynopsis);
 	}).then(function (entities) {
 		var places = dand.getPlaces(entities);
-		var place = removeRandomElement(places);
+		var place = removeRandomElement(places) || {name: "the kitchen"};
 		events = dand.getEvents(entities);
 		scene.environment = {
 			name: place.name,

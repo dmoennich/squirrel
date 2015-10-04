@@ -84,7 +84,7 @@ app.factory("Sound", function () {
 		messages.push(eventName + "! We are all doomed!");
 		messages.push("A " + eventName + "! Just look at it!");
 		messages.push(eventName + ", not again!");
-		messages.push(eventName + ", mmmhhh, sweet!");
+		messages.push(eventName + ", sweet!");
 		messages.push("That's the biggest " + eventName + " I've seen in a long time!");
 		messages.push("Every time I see a " + eventName + " I get sooo " + state + "!");
 		messages.push("Those red curtains, I like them!");

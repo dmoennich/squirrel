@@ -81,7 +81,7 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, L
 
 	// The End
 	stepPromise = stepPromise.then(function () {
-		var message = "Thank you and have a lovely night.'";
+		var message = "That was '" + sceneObj.title + "'";
 		Stage.showSign(message);
 		Stage.showNarrator();
 		return Sound.narrateEvent(message);
