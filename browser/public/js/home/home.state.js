@@ -14,7 +14,13 @@ app.controller("HomeCtrl", function ($scope, $state, LoaderSpinner) {
 
 	LoaderSpinner.hide();
 
-	$scope.loadStage = function () {
+	$scope.keyInput = function (event) {
+		if (event.which === 13) {
+			$scope.loadStage();
+		}
+	};
+
+	$scope.loadStage = function (event) {
 		LoaderSpinner.show();
 		$state.go("stage", {"keywords": $scope.keywords});
 	};
