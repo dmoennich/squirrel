@@ -8,8 +8,6 @@ var eventProvider = new EventProvider();
 var googleImg = require("google-images");
 var Promise = require("bluebird");
 
-var scene;
-
 var getImageUrl = function (keyword) {
 	var randPage = Math.round(Math.random() * 5);
 	return new Promise(function (resolve, reject) {
@@ -29,7 +27,7 @@ var getImageUrl = function (keyword) {
 };
 
 
-var loadAllPicUrls = function () {
+var loadAllPicUrls = function (scene) {
 
 	var promise = Promise.resolve();
 
@@ -73,17 +71,17 @@ var removeRandomElement = function (array) {
 };
 
 
-var createMessageAction = function (actor, message) {
+var createMessageAction = function (actor, message, scene) {
 	addPlayStep({
 		type: "action",
 		entity: null,
 		actor: actor,
 		reactor: null,
 		message: message
-	});
+	}, scene);
 };
 
-var createEvent = function (anEvent) {
+var createEvent = function (anEvent, scene) {
 	var event = eventProvider.get();
 	event.name = anEvent.name;
 	event.description = anEvent.name;
@@ -102,23 +100,23 @@ var createEvent = function (anEvent) {
 		entity: event,
 		affectedActors: affectedActors,
 		messages: messages
-	});
+	}, scene);
 };
 
 
-var addPlayStep = function (playStepObj) {
+var addPlayStep = function (playStepObj, scene) {
 	scene.playSteps.push(new PlayStep(playStepObj));
 };
 
 var initScene = function () {
-	scene = {
+	return {
 		persons: [],
 		playSteps: []
 	};
 };
 
 
-var createActors = function (characters) {
+var createActors = function (characters, scene) {
 	for (var character in characters) {
 		var actor = simplePersonProvider.get();
 		actor.name = character;
@@ -130,7 +128,7 @@ var createActors = function (characters) {
 
 var createScene = function (movieTitle) {
 
-	initScene();
+	var scene = initScene();
 
 	var charactersFromQuotes = {};
 	var selectedQuotes = [];
@@ -164,7 +162,7 @@ var createScene = function (movieTitle) {
 		});
 	}).then(function () {
 
-		createActors(charactersFromQuotes);
+		createActors(charactersFromQuotes, scene);
 
 		console.log("selectedQuotes", selectedQuotes);
 
@@ -173,16 +171,16 @@ var createScene = function (movieTitle) {
 			//console.log("selected quote:", JSON.stringify(quote, null, 4));
 			quote.lines.forEach(function (line) {
 				var actor = charactersFromQuotes[line.character];
-				createMessageAction(actor, line.message);
+				createMessageAction(actor, line.message, scene);
 			});
 
 			if (index < selectedQuotes.length - 1) {
-				createEvent(removeRandomElement(events));
+				createEvent(removeRandomElement(events), scene);
 			}
 
 		});
 
-		return loadAllPicUrls();
+		return loadAllPicUrls(scene);
 	}).then(function () {
 		return scene;
 	});
