@@ -80,6 +80,16 @@ app.factory("Sound", function () {
 		messages.push("Oh nice, a " + eventName);
 		messages.push("Oh my god, it's a real " + eventName);
 		messages.push("Ahh, those " + eventName + " make me feel " + state);
+
+		messages.push(eventName + "! We are all doomed!");
+		messages.push("A " + eventName + "! Just look at it!");
+		messages.push(eventName + ", not again!");
+		messages.push(eventName + ", mmmhhh, sweet!");
+		messages.push("That's the biggest " + eventName + " I've seen in a long time!");
+		messages.push("Every time I see a " + eventName + " I get sooo " + state + "!");
+		messages.push("Those red curtains, I like them!");
+
+
 		return getRandomElement(messages);
 	};
 

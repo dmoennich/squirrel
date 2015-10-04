@@ -50,13 +50,11 @@ app.factory("Stage", function () {
 	stage.activateActor = function (actor) {
 		var actorElement = getElementById(actor.id);
 		actorElement.addClass("animated bounce");
-		console.log(actor.name, "is active");
 	};
 
 	stage.deactivateActor = function (actor) {
 		var actorElement = getElementById(actor.id);
 		actorElement.removeClass("animated bounce");
-		console.log(actor.name, "is inactive");
 	};
 
 	stage.activateEvent = function (event) {
@@ -76,6 +74,7 @@ app.factory("Stage", function () {
 	stage.showSign = function (text) {
 		var sign = getElementById("sign");
 		sign.text(text);
+		sign.removeClass("animatedOnce2 fadeOut");
 		sign.addClass("animatedOnce5 bounceInLeft");
 	};
 

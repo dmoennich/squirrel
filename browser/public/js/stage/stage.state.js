@@ -19,7 +19,6 @@ app.config(function ($stateProvider) {
 app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, LoaderSpinner) {
 
 
-	console.log("scene:", sceneObj);
 
 	Stage.setBackground(sceneObj.environment);
 
@@ -78,6 +77,16 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, L
 
 
 	});
+
+
+	// The End
+	stepPromise = stepPromise.then(function () {
+		var message = "Thank you and have a lovely night.'";
+		Stage.showSign(message);
+		Stage.showNarrator();
+		return Sound.narrateEvent(message);
+	});
+
 
 	LoaderSpinner.hide();
 

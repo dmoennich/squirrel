@@ -108,8 +108,9 @@ var addPlayStep = function (playStepObj, scene) {
 	scene.playSteps.push(new PlayStep(playStepObj));
 };
 
-var initScene = function () {
+var initScene = function (movieTitle) {
 	return {
+		title: movieTitle,
 		persons: [],
 		playSteps: []
 	};
@@ -128,7 +129,7 @@ var createActors = function (characters, scene) {
 
 var createScene = function (movieTitle) {
 
-	var scene = initScene();
+	var scene = initScene(movieTitle);
 
 	var charactersFromQuotes = {};
 	var selectedQuotes = [];
