@@ -1,12 +1,11 @@
 var request = require("request");
 var Promise = require("bluebird");
-var api = require("./secret_dandelion.json");
 
 var DandData = {};
 module.exports = DandData;
 
-var appId = api.appId,
-	appKey = api.appKey;
+var appId = process.env.dandelion_appId,
+	appKey = process.env.dandelion_appKey;
 
 
 
