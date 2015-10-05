@@ -27,7 +27,7 @@ app.get("/*", function (request, response, next) {
 	response.sendFile(path.join(__dirname, "/browser/public/squirrel.html"));
 });
 
-server = app.listen(8080, function () {
+server = app.listen(process.env.PORT || 8080, function () {
 	console.log("Server listening on port", server.address().port, "...");
 });
 
