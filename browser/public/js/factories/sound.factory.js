@@ -35,6 +35,7 @@ app.factory("Sound", function () {
 		})[0];
 
 		var msg = new SpeechSynthesisUtterance();
+
 		msg.voice = voice;
 		msg.voiceURI = "native";
 		msg.volume = 1;
@@ -46,17 +47,30 @@ app.factory("Sound", function () {
 	};
 
 	sound.assignVoices = function (actors) {
+
+		actorVoiceMap = {};
+
+		var initVoices = function () {
+			voices = window.speechSynthesis.getVoices();
+			assignVoice({id: "narrator", gender: "narrator"});
+			actors.forEach(assignVoice);
+		};
+
 		return new Promise(function (resolve, reject) {
-			window.speechSynthesis.onvoiceschanged = function() {
-				voices = window.speechSynthesis.getVoices();
-				assignVoice({id: "narrator", gender: "narrator"});
-				actors.forEach(assignVoice);
+			if (voices) {
+				initVoices();
 				resolve();
-			};
+			} else {
+				window.speechSynthesis.onvoiceschanged = function() {
+					initVoices();
+					resolve();
+				};
+			}
 		});
 	};
 
 	sound.talk = function (actor, message) {
+
 		return new Promise(function (resolve, reject) {
 
 			var msg = actorVoiceMap[actor.id];
@@ -74,7 +88,7 @@ app.factory("Sound", function () {
 		var messages = [];
 		messages.push("The " + eventName + " made me " + state);
 		messages.push("I'm feeling " + state + " because of the " + eventName);
-		messages.push("Uhh, I'm so " + state);
+		messages.push("Uh, I'm so " + state);
 		messages.push(state + ", oh yes!");
 		messages.push("Look at that " + eventName);
 		messages.push("Oh nice, a " + eventName);

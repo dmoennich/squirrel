@@ -19,7 +19,6 @@ app.config(function ($stateProvider) {
 app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, LoaderSpinner) {
 
 
-
 	Stage.setBackground(sceneObj.environment);
 
 	Stage.placeActors(sceneObj.persons);
