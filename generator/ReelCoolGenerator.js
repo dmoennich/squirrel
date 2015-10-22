@@ -150,6 +150,8 @@ var createScene = function () {
 			picUrl: removeRandomElement(entities.bkgUrls)
 		};
 
+		scene.audioUrl = "/audio/indi.mp3";
+
 		var actors = createActors(charactersFromQuotes, scene);
 
 		// correct gender for voices in FE

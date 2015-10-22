@@ -16,7 +16,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, LoaderSpinner) {
+app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, LoaderSpinner, Music) {
 
 
 	Stage.setBackground(sceneObj.environment);
@@ -82,6 +82,15 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, L
 	});
 
 
+	// optional music track at the end
+	if (sceneObj.audioUrl) {
+		var audio = Music.createAudio(sceneObj.audioUrl);
+		stepPromise = stepPromise.then(function () {
+			return Music.play(audio);
+		});
+	}
+
+
 	// The End
 	stepPromise = stepPromise.then(function () {
 		var message = "That was '" + sceneObj.title + "'";
@@ -89,6 +98,9 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, L
 		Stage.showNarrator();
 		return Sound.narrateEvent(message);
 	});
+
+
+
 
 
 	LoaderSpinner.hide();
