@@ -49,12 +49,12 @@ app.factory("Stage", function () {
 
 	stage.activateActor = function (actor) {
 		var actorElement = getElementById(actor.id);
-		actorElement.addClass("animated bounce");
+		actorElement.addClass("animated spaceboots");
 	};
 
 	stage.deactivateActor = function (actor) {
 		var actorElement = getElementById(actor.id);
-		actorElement.removeClass("animated bounce");
+		actorElement.removeClass("animated spaceboots");
 	};
 
 	stage.activateEvent = function (event) {

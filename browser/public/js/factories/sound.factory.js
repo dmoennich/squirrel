@@ -114,19 +114,7 @@ app.factory("Sound", function () {
 
 
 	sound.narrateEvent = function (message) {
-
 		return this.talk({id: "narrator"}, message);
-
-		// var thisTalk = this.talk.bind(this);
-
-		// playStep.affectedActors.forEach(function (affectedPerson) {
-		// 	talkPromise = talkPromise.then(function () {
-		// 		var message = getStateMessage(playStep.entity.name, affectedPerson.currentState);
-		// 		return thisTalk(affectedPerson, message);
-		// 	});
-		// });
-
-		// return talkPromise;
 	};
 
 

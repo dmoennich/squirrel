@@ -30,13 +30,6 @@ var loadAllPicUrls = function (scene) {
 
 	var promise = Promise.resolve();
 
-	// background
-	// promise = promise.then(function () {
-	// 	return getImageUrl(scene.environment.name + " background");
-	// }).then(function (bkgPicUrl) {
-	// 	scene.environment.picUrl = bkgPicUrl;
-	// });
-
 	// all events
 	scene.playSteps.forEach(function (playStep) {
 		if (playStep.type === "event") {
@@ -47,15 +40,6 @@ var loadAllPicUrls = function (scene) {
 			});
 		}
 	});
-
-	// all actors
-	// scene.persons.forEach(function (person) {
-	// 	promise = promise.then(function () {
-	// 		return getImageUrl(person.name);
-	// 	}).then(function (picUrl) {
-	// 		person.picUrl = picUrl;
-	// 	});
-	// });
 
 	return promise;
 };
@@ -181,29 +165,6 @@ var createScene = function () {
 		presentSection("Cristina");
 		createEvent(removeRandomElement(events), scene);
 		createMessageAction(actors["Cristina"], outro, scene);
-
-		// createMessageAction(actors["Kathy"], quotes["Kathy"].startLine, scene);
-		// createEvent(removeRandomElement(events), scene);
-		// createMessageAction(
-		// 	actors["Kathy"],
-		// 	removeRandomElement(quotes["Kathy"].lines),
-		// 	scene
-		// );
-
-		// createMessageAction(actors["Steve"], quotes["Steve"].startLine, scene);
-		// createMessageAction(
-		// 	actors["Steve"],
-		// 	removeRandomElement(quotes["Steve"].lines),
-		// 	scene
-		// );
-		// createMessageAction(actors["Steve"], quotes["Steve"].endLine, scene);
-
-		// createEvent(removeRandomElement(events), scene);
-
-		// createMessageAction(actors["Daniel"], quotes["Daniel"], scene);
-		// createMessageAction(actors["Cristina"], quotes["Cristina"], scene);
-		// createEvent(removeRandomElement(events), scene);
-		// createMessageAction(actors["Cristina"], outro, scene);
 
 
 	return loadAllPicUrls(scene).then(function () {

@@ -23,8 +23,6 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, L
 
 	Stage.placeActors(sceneObj.persons);
 
-	console.log(sceneObj);
-
 	var actorActs = function (actor, message) {
 		return new Promise.resolve()
 		.then(function () {
@@ -38,8 +36,6 @@ app.controller("StageCtrl", function ($scope, sceneObj, Stage, Sound, Theater, L
 
 
 	var stepPromise = Sound.assignVoices(sceneObj.persons);
-
-	console.log("assigned all voices!");
 
 	stepPromise = stepPromise.then(function () {
 		var message = "It's happening in " + sceneObj.environment.description + "...";
