@@ -78,6 +78,11 @@ app.factory("Sound", function () {
 			msg.onend = function (e) {
 				resolve();
 			};
+
+			// this console.log needs to stay here; fixes the issue
+			// that the onend event is sometimes not fired
+			console.log(msg);
+
 			window.speechSynthesis.speak(msg);
 
 		});

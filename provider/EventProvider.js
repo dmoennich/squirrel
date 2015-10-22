@@ -28,6 +28,16 @@ var EventProvider = function () {
 	this.events = events;
 };
 
+EventProvider.prototype.create = function () {
+	var event = new Event({
+		name: "defaultEvent",
+		description: "It's starting to rain. And we thought it couldn't get worse",
+		impactChance: 70,
+		impactType: EventImpactTypes.positive
+	});
+	return event;
+};
+
 EventProvider.prototype.get = function (eventCount) {
 	var events = [];
 	eventCount = eventCount || 1;
