@@ -14,6 +14,8 @@ app.controller("ReelCoolCtrl", function ($scope, $state, LoaderSpinner) {
 
 	LoaderSpinner.hide();
 
+	LoaderSpinner.el.attr("src", "/images/reelcool/katyspinner.gif");
+
 	$scope.loadStage = function (event) {
 		LoaderSpinner.show();
 		$state.go("stage", {"keywords": "reel cool"});

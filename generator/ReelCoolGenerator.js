@@ -34,11 +34,11 @@ var loadAllPicUrls = function (scene) {
 	var promise = Promise.resolve();
 
 	// background
-	promise = promise.then(function () {
-		return getImageUrl(scene.environment.name + " background");
-	}).then(function (bkgPicUrl) {
-		scene.environment.picUrl = bkgPicUrl;
-	});
+	// promise = promise.then(function () {
+	// 	return getImageUrl(scene.environment.name + " background");
+	// }).then(function (bkgPicUrl) {
+	// 	scene.environment.picUrl = bkgPicUrl;
+	// });
 
 	// all events
 	scene.playSteps.forEach(function (playStep) {
@@ -89,9 +89,8 @@ var createEvent = function (anEvent, scene) {
 		return;
 	}
 	var event = eventProvider.create();
-	event.name = anEvent.name;
-	event.description = anEvent.name;
-	event.picUrl = anEvent.picUrl;
+	event.name = anEvent;
+	event.description = anEvent;
 	var affectedActors = [];
 	var messages = [];
 	scene.persons.forEach(function (person) {
@@ -124,24 +123,24 @@ var initScene = function (movieTitle) {
 
 
 var createActors = function (characters, scene) {
-	for (var character in characters) {
+	var actors = {};
+	characters.forEach (function (character) {
 		var actor = simplePersonProvider.get();
 		actor.name = character;
 		scene.persons.push(actor);
-		characters[character] = actor;
-	}
+		actors[character] = actor;
+	});
+	return actors;
 };
 
 
 var createScene = function () {
 
-	// create copy of reelColEntities
-	var entities = new ReelCoolEntities();
-
-	console.log("ENTITIES:", entities);
-
-	var movieTitle = entities.title,
-		charactersFromQuotes = {},
+	var entities = new ReelCoolEntities(),
+		movieTitle = entities.title,
+		charactersFromQuotes = Object.keys(entities.quotes),
+		intro = entities.intro,
+		outro = entities.outro,
 		place = entities.place,
 		events = entities.events,
 		quotes = entities.quotes,
@@ -151,44 +150,26 @@ var createScene = function () {
 		scene.environment = {
 			name: place.name,
 			description: place.name,
-			picUrl: "/images/kitchen.jpg"
+			picUrl: removeRandomElement(entities.bkgUrls)
 		};
 
-		// randomly select lines from each speaker
-		for (var speaker in quotes) {
-			var lines = [];
-			lines.push(removeRandomElement(quotes[speaker]));
-			lines.push(removeRandomElement(quotes[speaker]));
-			selectedQuotes[speaker] = lines;
-			charactersFromQuotes[speaker] = 1;
-		}
-
-		console.log("selected quotes:", JSON.stringify(selectedQuotes, null, 4));
-		// console.log("CHARS FROM QUOTES:", charactersFromQuotes);
-
-		createActors(charactersFromQuotes, scene);
+		var actors = createActors(charactersFromQuotes, scene);
 
 		// correct gender for voices in FE
-		charactersFromQuotes["Kathy"].gender = "female";
-		charactersFromQuotes["Steve"].gender = "male";
-		charactersFromQuotes["Daniel"].gender = "male";
-		charactersFromQuotes["Cristina"].gender = "female";
-
-
-		var createMessages = function (speaker) {
-			selectedQuotes[speaker].forEach(function (line) {
-				var actor = charactersFromQuotes[speaker];
-				createMessageAction(actor, line, scene);
-			});
-		};
+		actors["Kathy"].gender = "female";
+		actors["Steve"].gender = "male";
+		actors["Daniel"].gender = "male";
+		actors["Cristina"].gender = "female";
 
 		// sequence of speakers / events
-		createMessages("Kathy");
-		createMessages("Steve");
+		createMessageAction(actors["Kathy"], intro, scene);
+		createMessageAction(actors["Kathy"], quotes["Kathy"], scene);
+		createMessageAction(actors["Steve"], quotes["Steve"], scene);
 		createEvent(removeRandomElement(events), scene);
-		createMessages("Daniel");
-		createMessages("Cristina");
+		createMessageAction(actors["Daniel"], quotes["Daniel"], scene);
+		createMessageAction(actors["Cristina"], quotes["Cristina"], scene);
 		createEvent(removeRandomElement(events), scene);
+		createMessageAction(actors["Cristina"], outro, scene);
 
 
 	return loadAllPicUrls(scene).then(function () {
