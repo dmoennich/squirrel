@@ -1,5 +1,3 @@
-var imdb = require("../datasources/imdb.datasource");
-var dand = require("../datasources/dandelion.datasource");
 var SimplePersonProvider = require("../provider/SimplePersonProvider");
 var simplePersonProvider = new SimplePersonProvider();
 var PlayStep = require("../entities/PlayStep");
@@ -8,7 +6,6 @@ var eventProvider = new EventProvider();
 var googleImg = require("google-images");
 var Promise = require("bluebird");
 var ReelCoolEntities = require("../reelcool/entities.js");
-var _ = require("lodash");
 
 var getImageUrl = function (keyword) {
 	var randPage = Math.round(Math.random() * 5);
@@ -161,15 +158,50 @@ var createScene = function () {
 		actors["Daniel"].gender = "male";
 		actors["Cristina"].gender = "female";
 
-		// sequence of speakers / events
+
+		var presentSection = function (speaker) {
+			createMessageAction(actors[speaker], quotes[speaker].startLine, scene);
+			createMessageAction(
+				actors[speaker],
+				removeRandomElement(quotes[speaker].lines),
+				scene
+			);
+			createMessageAction(actors[speaker], quotes[speaker].endLine, scene);
+		};
+
+
 		createMessageAction(actors["Kathy"], intro, scene);
-		createMessageAction(actors["Kathy"], quotes["Kathy"], scene);
-		createMessageAction(actors["Steve"], quotes["Steve"], scene);
 		createEvent(removeRandomElement(events), scene);
-		createMessageAction(actors["Daniel"], quotes["Daniel"], scene);
-		createMessageAction(actors["Cristina"], quotes["Cristina"], scene);
+		presentSection("Kathy");
+		presentSection("Steve");
+		createEvent(removeRandomElement(events), scene);
+		presentSection("Daniel");
+		presentSection("Cristina");
 		createEvent(removeRandomElement(events), scene);
 		createMessageAction(actors["Cristina"], outro, scene);
+
+		// createMessageAction(actors["Kathy"], quotes["Kathy"].startLine, scene);
+		// createEvent(removeRandomElement(events), scene);
+		// createMessageAction(
+		// 	actors["Kathy"],
+		// 	removeRandomElement(quotes["Kathy"].lines),
+		// 	scene
+		// );
+
+		// createMessageAction(actors["Steve"], quotes["Steve"].startLine, scene);
+		// createMessageAction(
+		// 	actors["Steve"],
+		// 	removeRandomElement(quotes["Steve"].lines),
+		// 	scene
+		// );
+		// createMessageAction(actors["Steve"], quotes["Steve"].endLine, scene);
+
+		// createEvent(removeRandomElement(events), scene);
+
+		// createMessageAction(actors["Daniel"], quotes["Daniel"], scene);
+		// createMessageAction(actors["Cristina"], quotes["Cristina"], scene);
+		// createEvent(removeRandomElement(events), scene);
+		// createMessageAction(actors["Cristina"], outro, scene);
 
 
 	return loadAllPicUrls(scene).then(function () {
