@@ -18,7 +18,9 @@ app.controller("ReelCoolCtrl", function ($scope, $state, LoaderSpinner) {
 
 	$scope.loadStage = function (event) {
 		LoaderSpinner.show();
-		$state.go("stage", {"keywords": "reel cool"});
+		window.setTimeout(function () {
+			$state.go("stage", {"keywords": "reel cool"});
+		}, 1500);
 	};
 
 });

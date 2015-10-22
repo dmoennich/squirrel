@@ -90,9 +90,10 @@ var entities = function() {
   ];
 
   this.bkgUrls = [
-	"/images/reelcool/katy.png",
-	"/images/reelcool/bunny.png",
-	"/images/reelcool/flower.png"
+	// "/images/reelcool/katy.png",
+	// "/images/reelcool/bunny.png",
+	// "/images/reelcool/flower.png",
+	"/images/reelcool/reelbkg.gif",
   ];
 
 };
