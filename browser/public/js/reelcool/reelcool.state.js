@@ -1,7 +1,5 @@
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-	$urlRouterProvider.otherwise("/reelcool");
-
 	$stateProvider.state("reelcool", {
 		url: "/reelcool",
 		templateUrl: "/js/reelcool/reelcool.html",
@@ -11,6 +9,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 app.controller("ReelCoolCtrl", function ($scope, $state, LoaderSpinner) {
+
+	document.body.style.backgroundColor = "black";
 
 	LoaderSpinner.hide();
 
