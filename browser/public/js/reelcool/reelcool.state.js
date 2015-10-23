@@ -20,7 +20,7 @@ app.controller("ReelCoolCtrl", function ($scope, $state, LoaderSpinner) {
 		LoaderSpinner.show();
 		window.setTimeout(function () {
 			$state.go("stage", {"keywords": "reel cool"});
-		}, 1500);
+		}, 2500);
 	};
 
 });
