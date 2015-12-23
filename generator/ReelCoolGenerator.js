@@ -3,8 +3,7 @@ var simplePersonProvider = new SimplePersonProvider();
 var PlayStep = require("../entities/PlayStep");
 var EventProvider = require("../provider/EventProvider");
 var eventProvider = new EventProvider();
-var imgScraper = require("images-scraper"),
-	googleImg = new imgScraper.Google();
+var imgScraper = new (require("images-scraper")).Bing();
 var Promise = require("bluebird");
 var ReelCoolEntities = require("../reelcool/entities.js");
 
@@ -12,7 +11,7 @@ var getImageUrl = function (keyword) {
 	var numImages = 10,
 		randImage = Math.round(Math.random() * (numImages - 1));
 
-	return googleImg.list({
+	return imgScraper.list({
 		keyword: keyword,
 		num: numImages,
 		detail: false,

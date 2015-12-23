@@ -5,65 +5,21 @@ var simplePersonProvider = new SimplePersonProvider();
 var PlayStep = require("../entities/PlayStep");
 var EventProvider = require("../provider/EventProvider");
 var eventProvider = new EventProvider();
-var imgScraper = require("images-scraper"),
-	googleImg = new imgScraper.Google();
+var imgScraper = new (require("images-scraper")).Bing();
 var Promise = require("bluebird");
-
-// var getImageUrl = function (keyword) {
-// 	var randPage = Math.round(Math.random() * 5);
-// 	return new Promise(function (resolve, reject) {
-// 		googleImg.search({
-// 			page: randPage,
-// 			for: keyword,
-// 			callback: function (error, images) {
-// 				if (error) {
-// 					return reject("ERROR:" + error);
-// 				}
-// 				console.log("images", images);
-// 				var randomImage = removeRandomElement(images);
-// 				console.log("loaded pic:", randomImage.url);
-// 				resolve(randomImage.url);
-// 			}
-// 		});
-// 	});
-// };
-
 
 var getImageUrl = function (keyword) {
 	var numImages = 10,
 		randImage = Math.round(Math.random() * (numImages - 1));
 
-	return googleImg.list({
+	return imgScraper.list({
 		keyword: keyword,
 		num: numImages,
-		detail: false,
-		nightmare: {
-			show: false
-		}
+		detail: false
 	}).then(function (res) {
 		return res[randImage].url;
 	});
-
-
-	// return new Promise(function (resolve, reject) {
-	// 	googleImg.search({
-	// 		page: randPage,
-	// 		for: keyword,
-	// 		callback: function (error, images) {
-	// 			if (error) {
-	// 				return reject("ERROR:" + error);
-	// 			}
-	// 			console.log("images", images);
-	// 			var randomImage = removeRandomElement(images);
-	// 			console.log("loaded pic:", randomImage.url);
-	// 			resolve(randomImage.url);
-	// 		}
-	// 	});
-	// });
-
 };
-
-
 
 
 var loadAllPicUrls = function (scene) {
