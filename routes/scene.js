@@ -1,5 +1,5 @@
-var SceneGenerator = require("../generator/MovieBasedGenerator");
-var ReelCoolGenerator = require("../generator/ReelCoolGenerator");
+var SceneGenerator = require("../generator/MovieBasedGenerator")();
+var ReelCoolGenerator = require("../generator/ReelCoolGenerator")();
 var router = require("express").Router();
 module.exports = router;
 

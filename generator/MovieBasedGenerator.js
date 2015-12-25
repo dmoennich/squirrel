@@ -8,194 +8,183 @@ var eventProvider = new EventProvider();
 var imgScraper = new (require("images-scraper")).Bing();
 var Promise = require("bluebird");
 
-var getImageUrl = function (keyword) {
-	var numImages = 10,
-		randImage = Math.round(Math.random() * (numImages - 1));
 
-	return imgScraper.list({
-		keyword: keyword,
-		num: numImages,
-		detail: false
-	}).then(function (res) {
-		return res[randImage].url;
-	});
-};
+module.exports = function () {
+
+	var generator = {};
 
 
-var loadAllPicUrls = function (scene) {
+	generator.getImageUrl = function (keyword) {
+		var numImages = 10,
+			randImage = Math.round(Math.random() * (numImages - 1));
 
-	var promise = Promise.resolve();
-
-	// background
-	promise = promise.then(function () {
-		return getImageUrl(scene.environment.name + " background");
-	}).then(function (bkgPicUrl) {
-		scene.environment.picUrl = bkgPicUrl;
-	});
-
-	// all events
-	scene.playSteps.forEach(function (playStep) {
-		if (playStep.type === "event") {
-			promise = promise.then(function () {
-				return getImageUrl(playStep.entity.name);
-			}).then(function (eventPicUrl) {
-				playStep.entity.picUrl = eventPicUrl;
-			});
-		}
-	});
-
-	// all actors
-	// scene.persons.forEach(function (person) {
-	// 	promise = promise.then(function () {
-	// 		return getImageUrl(person.name);
-	// 	}).then(function (picUrl) {
-	// 		person.picUrl = picUrl;
-	// 	});
-	// });
-
-	return promise;
-};
-
-
-var removeRandomElement = function (array) {
-	if (!array.length) {
-		return;
-	}
-	var randomIndex = Math.round(Math.random() * (array.length - 1));
-	return array.splice(randomIndex, 1)[0];
-};
-
-
-var createMessageAction = function (actor, message, scene) {
-	addPlayStep({
-		type: "action",
-		entity: null,
-		actor: actor,
-		reactor: null,
-		message: message
-	}, scene);
-};
-
-var createEvent = function (anEvent, scene) {
-	if (!anEvent) {
-		return;
-	}
-	var event = eventProvider.get();
-	event.name = anEvent.name;
-	event.description = anEvent.name;
-	event.picUrl = anEvent.picUrl;
-	var affectedActors = [];
-	var messages = [];
-	scene.persons.forEach(function (person) {
-		var msg = person.affectState(event);
-		if (msg) {
-			messages.push(msg);
-			affectedActors.push(person);
-		}
-	});
-	addPlayStep({
-		type: "event",
-		entity: event,
-		affectedActors: affectedActors,
-		messages: messages
-	}, scene);
-};
-
-
-var addPlayStep = function (playStepObj, scene) {
-	scene.playSteps.push(new PlayStep(playStepObj));
-};
-
-var initScene = function (movieTitle) {
-	return {
-		title: movieTitle,
-		persons: [],
-		playSteps: []
+		return imgScraper.list({
+			keyword: keyword,
+			num: numImages,
+			detail: false
+		}).then(function (res) {
+			return res[randImage].url;
+		});
 	};
-};
 
 
-var createActors = function (characters, scene) {
-	for (var character in characters) {
-		var actor = simplePersonProvider.get();
-		actor.name = character;
-		scene.persons.push(actor);
-		characters[character] = actor;
-	}
-};
+	generator.loadAllPicUrls = function (scene) {
 
+		var promise = Promise.resolve();
 
-var createScene = function (movieTitle) {
+		// background
+		promise = promise.then(function () {
+			return generator.getImageUrl(scene.environment.name + " background");
+		}).then(function (bkgPicUrl) {
+			scene.environment.picUrl = bkgPicUrl;
+		});
 
-	var scene = initScene(movieTitle);
-
-	var charactersFromQuotes = {};
-	var selectedQuotes = [];
-	var synopsis;
-	var events;
-
-	return imdb.getSynopsis(movieTitle)
-	.then(function (receivedSynopsis) {
-		synopsis = receivedSynopsis;
-		return dand.getEntities(receivedSynopsis);
-	}).then(function (entities) {
-		var places = dand.getPlaces(entities);
-		var place = removeRandomElement(places) || {name: "the kitchen"};
-		events = dand.getEvents(entities);
-		scene.environment = {
-			name: place.name,
-			description: place.name,
-			picUrl: "/images/kitchen.jpg"
-		};
-		return imdb.getMovieQuotes(movieTitle);
-	}).then(function (quotes) {
-		var numberConv = 3;
-		numberConv = quotes.length < numberConv ? quotes.length : numberConv;
-		for (var i = 0; i < numberConv; i++) {
-			selectedQuotes.push(removeRandomElement(quotes));
-		}
-		selectedQuotes.forEach(function (quote) {
-			for (var character in quote.characters) {
-				charactersFromQuotes[character] = 1;
+		// all events
+		scene.playSteps.forEach(function (playStep) {
+			if (playStep.type === "event") {
+				promise = promise.then(function () {
+					return generator.getImageUrl(playStep.entity.name);
+				}).then(function (eventPicUrl) {
+					playStep.entity.picUrl = eventPicUrl;
+				});
 			}
 		});
-	}).then(function () {
 
-		createActors(charactersFromQuotes, scene);
+		return promise;
+	};
 
-		console.log("selectedQuotes", selectedQuotes);
 
-		// put all together
-		selectedQuotes.forEach(function (quote, index) {
-			//console.log("selected quote:", JSON.stringify(quote, null, 4));
-			quote.lines.forEach(function (line) {
-				var actor = charactersFromQuotes[line.character];
-				createMessageAction(actor, line.message, scene);
+	generator.removeRandomElement = function (array) {
+		if (!array.length) {
+			return;
+		}
+		var randomIndex = Math.round(Math.random() * (array.length - 1));
+		return array.splice(randomIndex, 1)[0];
+	};
+
+
+	generator.createMessageAction = function (actor, message, scene) {
+		generator.addPlayStep({
+			type: "action",
+			entity: null,
+			actor: actor,
+			reactor: null,
+			message: message
+		}, scene);
+	};
+
+	generator.createEvent = function (anEvent, scene) {
+		if (!anEvent) {
+			return;
+		}
+		var event = eventProvider.get();
+		event.name = anEvent.name;
+		event.description = anEvent.name;
+		event.picUrl = anEvent.picUrl;
+		var affectedActors = [];
+		var messages = [];
+		scene.persons.forEach(function (person) {
+			var msg = person.affectState(event);
+			if (msg) {
+				messages.push(msg);
+				affectedActors.push(person);
+			}
+		});
+		generator.addPlayStep({
+			type: "event",
+			entity: event,
+			affectedActors: affectedActors,
+			messages: messages
+		}, scene);
+	};
+
+
+	generator.addPlayStep = function (playStepObj, scene) {
+		scene.playSteps.push(new PlayStep(playStepObj));
+	};
+
+	generator.initScene = function (movieTitle) {
+		return {
+			title: movieTitle,
+			persons: [],
+			playSteps: []
+		};
+	};
+
+
+	generator.createActors = function (characters, scene) {
+		for (var character in characters) {
+			var actor = simplePersonProvider.get();
+			actor.name = character;
+			scene.persons.push(actor);
+			characters[character] = actor;
+		}
+	};
+
+
+	generator.createScene = function (movieTitle) {
+
+		var scene = generator.initScene(movieTitle);
+
+		var charactersFromQuotes = {};
+		var selectedQuotes = [];
+		var synopsis;
+		var events;
+
+		return imdb.getSynopsis(movieTitle)
+		.then(function (receivedSynopsis) {
+			synopsis = receivedSynopsis;
+			return dand.getEntities(receivedSynopsis);
+		}).then(function (entities) {
+			var places = dand.getPlaces(entities);
+			var place = generator.removeRandomElement(places) || {name: "the kitchen"};
+			events = dand.getEvents(entities);
+			scene.environment = {
+				name: place.name,
+				description: place.name,
+				picUrl: "/images/kitchen.jpg"
+			};
+			return imdb.getMovieQuotes(movieTitle);
+		}).then(function (quotes) {
+			var numberConv = 3;
+			numberConv = quotes.length < numberConv ? quotes.length : numberConv;
+			for (var i = 0; i < numberConv; i++) {
+				selectedQuotes.push(generator.removeRandomElement(quotes));
+			}
+			selectedQuotes.forEach(function (quote) {
+				for (var character in quote.characters) {
+					charactersFromQuotes[character] = 1;
+				}
+			});
+		}).then(function () {
+
+			generator.createActors(charactersFromQuotes, scene);
+
+			console.log("selectedQuotes", selectedQuotes);
+
+			// put all together
+			selectedQuotes.forEach(function (quote, index) {
+				//console.log("selected quote:", JSON.stringify(quote, null, 4));
+				quote.lines.forEach(function (line) {
+					var actor = charactersFromQuotes[line.character];
+					generator.createMessageAction(actor, line.message, scene);
+				});
+
+				if (index < selectedQuotes.length - 1) {
+					generator.createEvent(generator.removeRandomElement(events), scene);
+				}
+
 			});
 
-			if (index < selectedQuotes.length - 1) {
-				createEvent(removeRandomElement(events), scene);
-			}
-
+			return generator.loadAllPicUrls(scene);
+		}).then(function () {
+			return scene;
 		});
 
-		return loadAllPicUrls(scene);
-	}).then(function () {
-		return scene;
-	});
+	};
 
 
+	return generator;
 };
-
-
-
-module.exports = {
-	createScene: createScene
-};
-
-// createScene("Star Wars").then(function (scene) {
-// 	console.log("The scene:", scene);
-// });
-
 
 

@@ -1,182 +1,108 @@
-var SimplePersonProvider = require("../provider/SimplePersonProvider");
-var simplePersonProvider = new SimplePersonProvider();
-var PlayStep = require("../entities/PlayStep");
-var EventProvider = require("../provider/EventProvider");
-var eventProvider = new EventProvider();
-var imgScraper = new (require("images-scraper")).Bing();
 var Promise = require("bluebird");
 var ReelCoolEntities = require("../reelcool/entities.js");
+var movieBasedGenerator = require("./MovieBasedGenerator");
 
-var getImageUrl = function (keyword) {
-	var numImages = 10,
-		randImage = Math.round(Math.random() * (numImages - 1));
 
-	return imgScraper.list({
-		keyword: keyword,
-		num: numImages,
-		detail: false,
-		nightmare: {
-			show: false
-		}
-	}).then(function (res) {
-		return res[randImage].url;
-	});
+// correct gender for voices in FE
+var setGender = function (actors) {
+	actors["Kathy"].gender = "female";
+	actors["Cristina"].gender = "female";
+	actors["Steve"].gender = "male";
+	actors["Daniel"].gender = "male";
 };
 
+module.exports = function() {
 
-var loadAllPicUrls = function (scene) {
+	var generator = movieBasedGenerator();
 
-	var promise = Promise.resolve();
+	generator.loadAllPicUrls = function (scene) {
 
-	// all events
-	scene.playSteps.forEach(function (playStep) {
-		if (playStep.type === "event") {
-			promise = promise.then(function () {
-				return getImageUrl(playStep.entity.name);
-			}).then(function (eventPicUrl) {
-				playStep.entity.picUrl = eventPicUrl;
-			});
-		}
-	});
+		var promise = Promise.resolve();
 
-	return promise;
-};
+		// all events
+		scene.playSteps.forEach(function (playStep) {
+			if (playStep.type === "event") {
+				promise = promise.then(function () {
+					return generator.getImageUrl(playStep.entity.name);
+				}).then(function (eventPicUrl) {
+					playStep.entity.picUrl = eventPicUrl;
+				});
+			}
+		});
 
-
-var removeRandomElement = function (array) {
-	if (!array.length) {
-		return;
-	}
-	var randomIndex = Math.round(Math.random() * (array.length - 1));
-	var randEl = array.splice(randomIndex, 1)[0];
-	return randEl;
-};
-
-
-var createMessageAction = function (actor, message, scene) {
-	addPlayStep({
-		type: "action",
-		entity: null,
-		actor: actor,
-		reactor: null,
-		message: message
-	}, scene);
-};
-
-var createEvent = function (anEvent, scene) {
-	if (!anEvent) {
-		return;
-	}
-	var event = eventProvider.create();
-	event.name = anEvent;
-	event.description = anEvent;
-	var affectedActors = [];
-	var messages = [];
-	scene.persons.forEach(function (person) {
-		var msg = person.affectState(event);
-		if (msg) {
-			messages.push(msg);
-			affectedActors.push(person);
-		}
-	});
-	addPlayStep({
-		type: "event",
-		entity: event,
-		affectedActors: affectedActors,
-		messages: messages
-	}, scene);
-};
-
-
-var addPlayStep = function (playStepObj, scene) {
-	scene.playSteps.push(new PlayStep(playStepObj));
-};
-
-var initScene = function (movieTitle) {
-	return {
-		title: movieTitle,
-		persons: [],
-		playSteps: []
+		return promise;
 	};
-};
 
-
-var createActors = function (characters, scene) {
-	var actors = {};
-	characters.forEach (function (character) {
-		var actor = simplePersonProvider.get();
-		actor.name = character;
-		scene.persons.push(actor);
-		actors[character] = actor;
-	});
-	return actors;
-};
-
-
-var createScene = function () {
-
-	var entities = new ReelCoolEntities(),
-		movieTitle = entities.title,
-		charactersFromQuotes = Object.keys(entities.quotes),
-		intro = entities.intro,
-		outro = entities.outro,
-		place = entities.place,
-		events = entities.events,
-		quotes = entities.quotes,
-		selectedQuotes = {},
-		scene = initScene(movieTitle);
-
-		scene.environment = {
-			name: place.name,
-			description: place.name,
-			picUrl: removeRandomElement(entities.bkgUrls)
+	var pickRandomEvent = function (events) {
+		return {
+			name: generator.removeRandomElement(events)
 		};
+	};
 
-		scene.audioUrl = "/audio/indi.mp3";
+	generator.createScene = function () {
 
-		var actors = createActors(charactersFromQuotes, scene);
+		var entities = new ReelCoolEntities(),
+			movieTitle = entities.title,
+			charactersFromQuotes = {},// = Object.keys(entities.quotes),
+			intro = entities.intro,
+			outro = entities.outro,
+			place = entities.place,
+			events = entities.events,
+			quotes = entities.quotes,
+			selectedQuotes = {},
+			scene = generator.initScene(movieTitle);
 
-		// correct gender for voices in FE
-		actors["Kathy"].gender = "female";
-		actors["Steve"].gender = "male";
-		actors["Daniel"].gender = "male";
-		actors["Cristina"].gender = "female";
+			Object.keys(entities.quotes).forEach(function (name) {
+				charactersFromQuotes[name] = 1;
+			});
+
+			scene.environment = {
+				name: place.name,
+				description: place.name,
+				picUrl: generator.removeRandomElement(entities.bkgUrls)
+			};
+
+			scene.audioUrl = "/audio/indi.mp3";
+
+			generator.createActors(charactersFromQuotes, scene);
+
+			setGender(charactersFromQuotes);
+
+			var presentSection = function (speaker) {
+				generator.createMessageAction(charactersFromQuotes[speaker], quotes[speaker].startLine, scene);
+				generator.createMessageAction(
+					charactersFromQuotes[speaker],
+					generator.removeRandomElement(quotes[speaker].lines),
+					scene
+				);
+				generator.createMessageAction(charactersFromQuotes[speaker], quotes[speaker].endLine, scene);
+			};
 
 
-		var presentSection = function (speaker) {
-			createMessageAction(actors[speaker], quotes[speaker].startLine, scene);
-			createMessageAction(
-				actors[speaker],
-				removeRandomElement(quotes[speaker].lines),
-				scene
-			);
-			createMessageAction(actors[speaker], quotes[speaker].endLine, scene);
-		};
+			generator.createMessageAction(charactersFromQuotes["Kathy"], intro, scene);
+			generator.createEvent(pickRandomEvent(events), scene);
+			presentSection("Kathy");
+			presentSection("Steve");
+			generator.createEvent(pickRandomEvent(events), scene);
+			presentSection("Daniel");
+			presentSection("Cristina");
+			generator.createEvent(pickRandomEvent(events), scene);
+			generator.createMessageAction(charactersFromQuotes["Cristina"], outro, scene);
 
 
-		createMessageAction(actors["Kathy"], intro, scene);
-		createEvent(removeRandomElement(events), scene);
-		presentSection("Kathy");
-		presentSection("Steve");
-		createEvent(removeRandomElement(events), scene);
-		presentSection("Daniel");
-		presentSection("Cristina");
-		createEvent(removeRandomElement(events), scene);
-		createMessageAction(actors["Cristina"], outro, scene);
+		return generator.loadAllPicUrls(scene).then(function () {
+			return scene;
+		});
 
+	};
 
-	return loadAllPicUrls(scene).then(function () {
-		console.log("the scene:" , scene);
-		return scene;
-	});
-
+	return generator;
 };
 
 
 
-module.exports = {
-	createScene: createScene
-};
+
+
 
 
 
