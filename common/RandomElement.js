@@ -1,8 +1,23 @@
-var getRandomElement = function (array) {
-	if (!array.length) {
+
+
+var getRandomIndex = function (arrayLength) {
+	if (!arrayLength) {
 		return;
 	}
-	return array[Math.round(Math.random() * (array.length - 1))];
+	return Math.round(Math.random() * (arrayLength - 1));
 };
 
-module.exports = getRandomElement;
+
+module.exports = {
+	get: function (array) {
+		return array[getRandomIndex(array.length)];
+	},
+	remove: function (array) {
+		var randomIndex = getRandomIndex(array.length);
+		if (randomIndex !== undefined) {
+			return array.splice(randomIndex, 1)[0];
+		}
+	}
+};
+
+

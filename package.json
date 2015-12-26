@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/jasmine"
   },
   "repository": {
     "type": "git",
@@ -30,5 +30,8 @@
     "lodash": "^3.10.1",
     "morgan": "^1.6.1",
     "request": "^2.64.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.4.1"
   }
 }
