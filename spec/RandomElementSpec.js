@@ -14,8 +14,6 @@ describe("RandomElement", function () {
 				counter = 1000,
 				element;
 
-			// curry ?
-
 			while (counter--) {
 				element = randomElement.get(arr);
 				expect(arr.indexOf(element)).toBeGreaterThan(-1);

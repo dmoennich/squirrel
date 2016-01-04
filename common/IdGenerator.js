@@ -1,5 +1,4 @@
-var IdGenerator = function () {
-  return '_' + Math.random().toString(36).substr(2, 9);
+var counter = 0;
+module.exports = function () {
+	return counter++;
 };
-
-module.exports = IdGenerator;
