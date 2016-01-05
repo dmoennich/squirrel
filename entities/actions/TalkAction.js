@@ -1,4 +1,4 @@
-var Action = require("../Action");
+var action = require("../Action");
 var MessageContentProvider = require("../../provider/MessageContentProvider")();
 
 var talkActionObj = {
@@ -9,4 +9,4 @@ var talkActionObj = {
 	}
 };
 
-module.exports = new Action (talkActionObj);
+module.exports = action.create(talkActionObj);

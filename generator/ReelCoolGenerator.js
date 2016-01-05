@@ -1,6 +1,7 @@
 var Promise = require("bluebird");
 var ReelCoolEntities = require("../reelcool/entities.js");
 var movieBasedGenerator = require("./MovieBasedGenerator");
+var randomElement = require("../common/RandomElement");
 
 
 // correct gender for voices in FE
@@ -35,7 +36,7 @@ module.exports = function() {
 
 	var pickRandomEvent = function (events) {
 		return {
-			name: generator.removeRandomElement(events)
+			name: randomElement.remove(events)
 		};
 	};
 
@@ -59,7 +60,7 @@ module.exports = function() {
 			scene.environment = {
 				name: place.name,
 				description: place.name,
-				picUrl: generator.removeRandomElement(entities.bkgUrls)
+				picUrl: randomElement.remove(entities.bkgUrls)
 			};
 
 			scene.audioUrl = "/audio/indi.mp3";
@@ -72,7 +73,7 @@ module.exports = function() {
 				generator.createMessageAction(charactersFromQuotes[speaker], quotes[speaker].startLine, scene);
 				generator.createMessageAction(
 					charactersFromQuotes[speaker],
-					generator.removeRandomElement(quotes[speaker].lines),
+					randomElement.remove(quotes[speaker].lines),
 					scene
 				);
 				generator.createMessageAction(charactersFromQuotes[speaker], quotes[speaker].endLine, scene);

@@ -12,7 +12,7 @@ var getDefaultPicUrl = function () {
 		"/images/default_actor5.png"
 	];
 
-	return RandomElement(picUrls);
+	return RandomElement.get(picUrls);
 };
 
 
@@ -31,12 +31,12 @@ Entity.prototype.setRandomState = function (event) {
 		2: EventImpactTypes.negative,
 		3: EventImpactTypes.neutral
 	};
-	this.currentState = RandomElement(this.states[stateMap[randomType]]);
+	this.currentState = RandomElement.get(this.states[stateMap[randomType]]);
 };
 Entity.prototype.affectState = function (event) {
 	var oldState = this.currentState;
 	if (event.isAffecting()) {
-		this.currentState = RandomElement(this.states[event.impactType]);
+		this.currentState = RandomElement.get(this.states[event.impactType]);
 	}
 	if (oldState !== this.currentState) {
 		return "The " + event.name + " made " + this.name + " " + this.currentState;

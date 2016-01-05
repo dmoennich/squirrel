@@ -8,7 +8,7 @@ var SimpleEnvironmentProvider = function () {
 	];
 };
 SimpleEnvironmentProvider.prototype.get = function () {
-	var randomEnvObj = RandomElement(this.envObjs);
+	var randomEnvObj = RandomElement.get(this.envObjs);
 	return new Environment(randomEnvObj);
 };
 

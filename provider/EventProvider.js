@@ -42,7 +42,7 @@ EventProvider.prototype.get = function (eventCount) {
 	var events = [];
 	eventCount = eventCount || 1;
 	while (eventCount > 0) {
-		events.push(RandomElement(this.events));
+		events.push(RandomElement.get(this.events));
 		eventCount -= 1;
 	}
 	return events.length === 1 ? events[0] : events;

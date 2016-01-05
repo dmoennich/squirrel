@@ -7,6 +7,7 @@ var EventProvider = require("../provider/EventProvider");
 var eventProvider = new EventProvider();
 var imgScraper = new (require("images-scraper")).Bing();
 var Promise = require("bluebird");
+var randomElement = require("../common/RandomElement");
 
 
 module.exports = function () {
@@ -51,15 +52,6 @@ module.exports = function () {
 		});
 
 		return promise;
-	};
-
-
-	generator.removeRandomElement = function (array) {
-		if (!array.length) {
-			return;
-		}
-		var randomIndex = Math.round(Math.random() * (array.length - 1));
-		return array.splice(randomIndex, 1)[0];
 	};
 
 
@@ -137,7 +129,7 @@ module.exports = function () {
 			return dand.getEntities(receivedSynopsis);
 		}).then(function (entities) {
 			var places = dand.getPlaces(entities);
-			var place = generator.removeRandomElement(places) || {name: "the kitchen"};
+			var place = randomElement.remove(places) || {name: "the kitchen"};
 			events = dand.getEvents(entities);
 			scene.environment = {
 				name: place.name,
@@ -149,7 +141,7 @@ module.exports = function () {
 			var numberConv = 3;
 			numberConv = quotes.length < numberConv ? quotes.length : numberConv;
 			for (var i = 0; i < numberConv; i++) {
-				selectedQuotes.push(generator.removeRandomElement(quotes));
+				selectedQuotes.push(randomElement.remove(quotes));
 			}
 			selectedQuotes.forEach(function (quote) {
 				for (var character in quote.characters) {
@@ -171,7 +163,7 @@ module.exports = function () {
 				});
 
 				if (index < selectedQuotes.length - 1) {
-					generator.createEvent(generator.removeRandomElement(events), scene);
+					generator.createEvent(randomElement.remove(events), scene);
 				}
 
 			});

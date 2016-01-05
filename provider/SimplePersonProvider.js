@@ -1,5 +1,4 @@
 var Person = require("../entities/Person");
-var Action = require("../entities/Action");
 var talkAction = require("../entities/actions/TalkAction");
 var RandomElement = require("../common/RandomElement");
 
@@ -67,7 +66,7 @@ SimplePersonProvider.prototype.get = function (personCount) {
 		personCount = 1;
 	}
 	while (personCount) {
-		randomPersObj = RandomElement(this.personObjs);
+		randomPersObj = RandomElement.get(this.personObjs);
 		randomPersObj.actions = this.personActions;
 		randomPersObj.states = this.states;
 		personArr.push(new Person(randomPersObj));

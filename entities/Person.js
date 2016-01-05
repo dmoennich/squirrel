@@ -1,4 +1,3 @@
-var RandomElement = require("../common/RandomElement");
 var Entity = require("./Entity");
 
 var Person = function (person) {
