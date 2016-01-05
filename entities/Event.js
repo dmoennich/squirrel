@@ -1,4 +1,3 @@
-var EventImpactTypes = require("./EventImpactTypes");
 var IdGenerator = require("../common/IdGenerator");
 
 var Event = function (event) {

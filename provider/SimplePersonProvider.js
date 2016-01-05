@@ -1,4 +1,5 @@
-var Person = require("../entities/Person");
+var person = require("../entities/Person");
+var states = require("../entities/States");
 var talkAction = require("../entities/actions/TalkAction");
 var RandomElement = require("../common/RandomElement");
 
@@ -22,7 +23,7 @@ var personObjs = [
 	{name: "Crystal", gender: "female"}
 ];
 
-var states = {
+var personStates = {
 	positive: ["happy", "interested", "excited",
 "understanding", "great", "playful", "calm",
 "confident", "courageous","peaceful","reliable",
@@ -53,11 +54,11 @@ var states = {
 	neutral: ["paralized", "easy", "in stand by mode"]
 };
 
+var personActions = [talkAction];
+
 var SimplePersonProvider = function () {
-	this.personObjs = personObjs;
-	this.personActions = [talkAction];
-	this.states = states;
 };
+
 SimplePersonProvider.prototype.get = function (personCount) {
 	var randomPersObj,
 		personArr = [];
@@ -66,10 +67,10 @@ SimplePersonProvider.prototype.get = function (personCount) {
 		personCount = 1;
 	}
 	while (personCount) {
-		randomPersObj = RandomElement.get(this.personObjs);
-		randomPersObj.actions = this.personActions;
-		randomPersObj.states = this.states;
-		personArr.push(new Person(randomPersObj));
+		randomPersObj = RandomElement.get(personObjs);
+		randomPersObj.actions = personActions;
+		randomPersObj.states = personStates;
+		personArr.push(person.create(randomPersObj));
 		personCount -= 1;
 	}
 	return personArr.length === 1 ? personArr[0] : personArr;

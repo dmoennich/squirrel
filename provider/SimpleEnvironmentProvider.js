@@ -1,4 +1,4 @@
-var Environment = require("../entities/Environment");
+var environment = require("../entities/Environment");
 var RandomElement = require("../common/RandomElement");
 
 var SimpleEnvironmentProvider = function () {
@@ -9,7 +9,7 @@ var SimpleEnvironmentProvider = function () {
 };
 SimpleEnvironmentProvider.prototype.get = function () {
 	var randomEnvObj = RandomElement.get(this.envObjs);
-	return new Environment(randomEnvObj);
+	return environment.create(randomEnvObj);
 };
 
 module.exports = SimpleEnvironmentProvider;

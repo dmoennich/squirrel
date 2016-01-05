@@ -1,10 +1,10 @@
-var Entity = require("./Entity");
+var entity = require("./Entity"),
+	person = Object.create(entity);
 
-var Person = function (person) {
-	Entity.call(this, person);
-	this.gender = person.gender;
+person.create = function (spec) {
+	var self = entity.create.call(this, spec);
+	self.gender = spec.gender;
+	return self;
 };
-Person.prototype = Object.create(Entity.prototype);
-Person.prototype.constructor = Person;
 
-module.exports = Person;
+module.exports = person;
