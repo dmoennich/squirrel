@@ -1,5 +1,5 @@
 var Promise = require("bluebird");
-var ReelCoolEntities = require("../reelcool/entities.js");
+var entities = require("../reelcool/entities.js");
 var movieBasedGenerator = require("./MovieBasedGenerator");
 var randomElement = require("../common/RandomElement");
 
@@ -42,15 +42,13 @@ module.exports = function() {
 
 	generator.createScene = function () {
 
-		var entities = new ReelCoolEntities(),
-			movieTitle = entities.title,
-			charactersFromQuotes = {},// = Object.keys(entities.quotes),
+		var	movieTitle = entities.title,
+			charactersFromQuotes = {},
 			intro = entities.intro,
 			outro = entities.outro,
 			place = entities.place,
 			events = entities.events,
 			quotes = entities.quotes,
-			selectedQuotes = {},
 			scene = generator.initScene(movieTitle);
 
 			Object.keys(entities.quotes).forEach(function (name) {
@@ -60,7 +58,7 @@ module.exports = function() {
 			scene.environment = {
 				name: place.name,
 				description: place.name,
-				picUrl: randomElement.remove(entities.bkgUrls)
+				picUrl: randomElement.get(entities.bkgUrls)
 			};
 
 			scene.audioUrl = "/audio/indi.mp3";
