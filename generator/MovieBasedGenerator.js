@@ -2,7 +2,6 @@ var imdb = require("../datasources/imdb.datasource");
 var dand = require("../datasources/dandelion.datasource");
 var SimplePersonProvider = require("../provider/SimplePersonProvider");
 var simplePersonProvider = new SimplePersonProvider();
-var PlayStep = require("../entities/PlayStep");
 var EventProvider = require("../provider/EventProvider");
 var eventProvider = new EventProvider();
 var imgScraper = new (require("images-scraper")).Bing();
@@ -92,7 +91,7 @@ module.exports = function () {
 
 
 	generator.addPlayStep = function (playStepObj, scene) {
-		scene.playSteps.push(new PlayStep(playStepObj));
+		scene.playSteps.push(playStepObj);
 	};
 
 	generator.initScene = function (movieTitle) {
