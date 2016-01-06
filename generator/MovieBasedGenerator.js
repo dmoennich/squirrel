@@ -1,7 +1,6 @@
 var imdb = require("../datasources/imdb.datasource");
 var dand = require("../datasources/dandelion.datasource");
-var SimplePersonProvider = require("../provider/SimplePersonProvider");
-var simplePersonProvider = new SimplePersonProvider();
+var simplePersonProvider = require("../provider/SimplePersonProvider");
 var eventProvider = require("../provider/EventProvider");
 var imgScraper = new (require("images-scraper")).Bing();
 var Promise = require("bluebird");
