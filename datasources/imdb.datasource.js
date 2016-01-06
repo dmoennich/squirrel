@@ -145,24 +145,6 @@ ImdbData.getSynopsis = function (movieTitle) {
 };
 
 
-// ImdbData.getMovieQuotes("Star Wars").then(function (quotes) {
-// 	console.log("quotes length:", quotes.length);
-// 	console.log(quotes[0]);
-// });
-
-
-// ImdbData.getSynopsis("Star Wars").then(function (syn) {
-// 	console.log("Synopsis:", syn);
-// });
-
-
-// ImdbData.getMovieCharacters("Star Wars").then(function (characters) {
-// 	console.log("characters length:", characters.length);
-// 	console.log("characters:", characters[0]);
-// 	console.log("characters:", characters[1]);
-// 	console.log("characters:", characters[2]);
-// 	console.log("characters:", characters[3]);
-// });
 
 
 

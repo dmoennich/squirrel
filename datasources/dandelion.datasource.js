@@ -76,12 +76,6 @@ DandData.getEvents = function (entities) {
 };
 
 
-// DandData.getEntities("Daniel drives with the train to Manhattan.")
-// .then(function (entities) {
-// 	//console.log("Entities length", entities);
-// 	console.log("found places:", DandData.getPlaces(entities));
-// });
-
 
 
 
